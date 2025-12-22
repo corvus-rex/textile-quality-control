@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket UI</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="container">
+  <div id="status" class="status">Connecting...</div>
+
+  <div class="grid-2">
+    <input id="kpField" type="text" placeholder="KP" disabled>
+    <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
+    <input id="operatorField" type="text" placeholder="Operator" disabled>
+  </div>
+
+  <button id="startBtn" disabled>Start Session</button>
+  <button id="stopBtn" hidden>Stop Session</button>
+  <button id="addInputBtn" hidden>New Defect</button>
+
+  <div id="dynamicInputs"></div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
