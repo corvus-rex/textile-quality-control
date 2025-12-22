@@ -62,9 +62,9 @@ export function addDynamicInput(onSubmit, curPos) {
   defectType.placeholder = "Jenis Cacat";
 
   const defectPoint = document.createElement("input");
-  defectType.className = "defect-point-input";
-  defectType.type = "text";
-  defectType.placeholder = "Poin Cacat";
+  defectPoint.className = "defect-point-input";
+  defectPoint.type = "text";
+  defectPoint.placeholder = "Poin Cacat";
 
   const sendDefectBtn = document.createElement("button");
   sendDefectBtn.className = "send-defect-btn";

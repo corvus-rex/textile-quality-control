@@ -7,20 +7,24 @@
 </head>
 <body>
 
-<div class="container">
-  <div id="status" class="status">Connecting...</div>
+<div class="app-wrapper">
+    <img src="assets/logo.png" alt="Logo" class="app-logo">
 
-  <div class="grid-2">
-    <input id="kpField" type="text" placeholder="KP" disabled>
-    <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
-    <input id="operatorField" type="text" placeholder="Operator" disabled>
-  </div>
+    <div class="container">
+    <div id="status" class="status">Connecting...</div>
 
-  <button id="startBtn" disabled>Start Session</button>
-  <button id="stopBtn" hidden>Stop Session</button>
-  <button id="addInputBtn" hidden>New Defect</button>
+    <div class="grid-2">
+        <input id="kpField" type="text" placeholder="KP" disabled>
+        <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
+        <input id="operatorField" type="text" placeholder="Operator" disabled>
+    </div>
 
-  <div id="dynamicInputs"></div>
+    <button id="startBtn" disabled>Start Session</button>
+    <button id="stopBtn" hidden>Stop Session</button>
+    <button id="addInputBtn" hidden>New Defect</button>
+
+    <div id="dynamicInputs"></div>
+    </div>
 </div>
 
 <script type="module" src="js/main.js"></script>
