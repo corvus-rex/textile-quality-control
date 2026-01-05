@@ -1,7 +1,7 @@
 import { connect, send } from "./ws.js";
 import { setEnabled, onSessionStart, onSessionStop, setCurPos, addDynamicInput, setSessionId } from "./ui.js";
 
-const backendURL = 'localhost:8080'
+const backendURL = 'localhost:8776'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
 const addInputBtn = document.getElementById("addInputBtn");
@@ -30,15 +30,15 @@ connect(
     console.log(WS_URL, connected)
   },
   message => {
-    switch (message.type) {
+    switch (message.command) {
       case "start_session_ack":
-        sessionId = message.data.session_id;
+        sessionId = message.id;
         // setSessionId(sessionId);
         onSessionStart(); 
         break;
 
-      case "update_encoder":
-        curPos = message.data.meter;
+      case "update_meter":
+        curPos = message.meter;
         setCurPos(curPos);
         break;
 

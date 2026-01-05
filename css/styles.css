@@ -51,7 +51,7 @@ body {
 
 .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 12px;
 }
@@ -73,9 +73,9 @@ input, button {
 
 /* Encoder position: very small */
 .encoder-pos {
-  width: 30px;
-  min-width: 30px;
-  max-width: 30px;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
   text-align: center;
 }
 

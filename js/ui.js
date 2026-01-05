@@ -60,20 +60,32 @@ export function addDynamicInput(onSubmit, curPos) {
   defectType.className = "defect-type-input"
   defectType.type = "text";
   defectType.placeholder = "Jenis Cacat";
-
-  const defectPoint = document.createElement("input");
+  const defectPoint = document.createElement("select");
   defectPoint.className = "defect-point-input";
-  defectPoint.type = "text";
-  defectPoint.placeholder = "Poin Cacat";
+
+  ["1", "2", "3", "4"].forEach(value => {
+  const option = document.createElement("option");
+  option.value = value;
+  option.textContent = value;
+    defectPoint.appendChild(option);
+  });
 
   const sendDefectBtn = document.createElement("button");
   sendDefectBtn.className = "send-defect-btn";
   sendDefectBtn.textContent = "Submit Defect";
-
   sendDefectBtn.onclick = () => {
     onSubmit(defectType.value, defectPoint.value);
-    row.querySelectorAll("input, button").forEach(el => {
-      el.disabled = true;
+
+    // change encoder class
+    const encoder = row.querySelector(".encoder-pos");
+    if (encoder) {
+        encoder.classList.remove("encoder-pos");
+        encoder.classList.add("encoder-pos-fixed");
+    }
+
+    // disable all inputs/buttons/selects in this row
+    row.querySelectorAll("input, button, select").forEach(el => {
+        el.disabled = true;
     });
   };
 

@@ -22,7 +22,11 @@ export function connect(url, stateCallback, messageCallback) {
   };
 }
 
-export function send(type, data) {
+export function send(command, params = {}) {
   if (!ws || ws.readyState !== WebSocket.OPEN) return;
-  ws.send(JSON.stringify({ type, data }));
+
+  ws.send(JSON.stringify({
+    command,
+    ...params
+  }));
 }
