@@ -1,7 +1,7 @@
 import { connect, send } from "./ws.js";
 import { setEnabled, onSessionStart, onSessionStop, setCurPos, addDynamicInput, setSessionId } from "./ui.js";
 
-const backendURL = 'localhost:8776'
+const backendURL = 'localhost:8080'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
 const addInputBtn = document.getElementById("addInputBtn");

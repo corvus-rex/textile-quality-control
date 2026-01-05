@@ -17,8 +17,8 @@ wss.on("connection", ws => {
       if (ws.readyState !== WebSocket.OPEN) return;
 
       ws.send(JSON.stringify({
-        type: "update_encoder",
-        data: { meter: encoderPos }
+        command: "update_encoder",
+        meter: encoderPos
       }));
 
       encoderPos += 1;
@@ -40,13 +40,13 @@ wss.on("connection", ws => {
       return;
     }
 
-    switch (message.type) {
+    switch (message.command) {
       case "start_session":
         sessionId = crypto.randomBytes(8).toString("hex");
 
         ws.send(JSON.stringify({
-          type: "start_session_ack",
-          data: { session_id: sessionId }
+          command: "start_session_ack",
+          id: sessionId 
         }));
 
         startEncoder();
