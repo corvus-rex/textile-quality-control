@@ -17,7 +17,7 @@ wss.on("connection", ws => {
       if (ws.readyState !== WebSocket.OPEN) return;
 
       ws.send(JSON.stringify({
-        command: "update_encoder",
+        command: "update_meter",
         meter: encoderPos
       }));
 

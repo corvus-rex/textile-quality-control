@@ -51,11 +51,88 @@ body {
 
 .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 12px;
 }
 
+#grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+#sub-container-input {
+  grid-column: span 2;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+#sub-container-defect-type {
+  grid-column: span 4;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+#sub-container-point {
+  grid-column: span 1;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+
+.invis-sub-container {
+  display: grid;
+  align-items: center;
+  justify-items: stretch;
+  gap: 8px;
+}
+
+.invis-sub-container .encoder-pos,
+.invis-sub-container .send-defect-btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.invis-sub-container .encoder-pos {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+#sub-container-input h3,
+#sub-container-defect-type h3,
+#sub-container-point h3 {
+  text-align: center;
+}
+
+#kpField {
+  grid-column: span 2;
+}
+
+#texCodeField {
+  grid-column: span 3;
+}
+
+#operatorField {
+  grid-column: span 3;
+}
 
 input, button {
   padding: 8px;
@@ -71,15 +148,80 @@ input, button {
   margin-bottom: 6px;
 }
 
-/* Encoder position: very small */
-.encoder-pos {
-  width: 50px;
-  min-width: 50px;
-  max-width: 50px;
+.send-defect-btn {
+  white-space: nowrap;
+}
+
+
+.point-btn {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #7c3aed;
+  background: transparent;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.point-btn.selected {
+  background: #7c3aed;
+  color: white;
+}
+
+.defect-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 6px;
+}
+
+.defect-btn {
+  padding: 6px 4px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid #7c3aed;
+  background: transparent;
+  color: #e5e7eb;
+  cursor: pointer;
   text-align: center;
 }
 
-/* Button keeps natural size */
-.send-defect-btn {
-  white-space: nowrap;
+.defect-btn.selected {
+  background: #7c3aed;
+  color: white;
+}
+
+#dynamic-input-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.defect-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(124, 58, 237, 0.12);
+  font-size: 0.9rem;
+}
+
+.defect-col {
+  text-align: center;
+}
+
+.encoder-col {
+  font-weight: 600;
+}
+
+.type-col {
+  text-align: left;
+}
+
+.point-col {
+  font-weight: 600;
+}
+
+[hidden] {
+  display: none !important;
 }

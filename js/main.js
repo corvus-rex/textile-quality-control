@@ -1,10 +1,10 @@
 import { connect, send } from "./ws.js";
-import { setEnabled, onSessionStart, onSessionStop, setCurPos, addDynamicInput, setSessionId } from "./ui.js";
+import { setEnabled, clearDefectList, appendDefectRow, onSessionStart, onSessionStop, setCurPos, resetDefectSelection, initPointButtons, initDefectButtons, setSessionId } from "./ui.js";
 
 const backendURL = 'localhost:8080'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
-const addInputBtn = document.getElementById("addInputBtn");
+const sendDefectBtn = document.getElementById("send-defect-btn");
 const stopBtn = document.getElementById("stopBtn");
 
 var kpField = document.getElementById("kpField");
@@ -12,8 +12,11 @@ var texCodeField = document.getElementById("texCodeField");
 var operatorField = document.getElementById("operatorField");
 
 let sessionId = null;
-let curPos = 0;
+let encoderPos = 0;
 let defectSent = null;
+
+let defectPoint = null;
+let defectType = null;
 
 const protocol = location.protocol === "https:" ? "wss" : "ws";
 const WS_URL = `${protocol}://${backendURL}/ws`;
@@ -35,11 +38,17 @@ connect(
         sessionId = message.id;
         // setSessionId(sessionId);
         onSessionStart(); 
+        initPointButtons(point => {
+          defectPoint = point;
+        });
+        initDefectButtons(type => {
+          defectType = type;
+        }); 
         break;
 
       case "update_meter":
-        curPos = message.meter;
-        setCurPos(curPos);
+        encoderPos = message.meter;
+        setCurPos(encoderPos);
         break;
 
       default:
@@ -62,20 +71,31 @@ stopBtn.onclick = () => {
   send("end_session", { sessionId });
 
   sessionId = null;
-  curPos = null;    
+  encoderPos = "0";    
+  setCurPos(encoderPos);
 
+  resetDefectState();
+  clearDefectList();
   onSessionStop();
 };
 
-addInputBtn.onclick = () => {
-  addDynamicInput((defectType, defectPoint, encoderPos) => {
-    if (!sessionId) return;
-    
-    send("send_defect", {
-      sessionId,
-      defectType,
-      defectPoint,
-      encoderPos
-    });
-  }, curPos);
+sendDefectBtn.onclick = () => {
+  send("send_defect", {
+    'id': sessionId,
+    'jenis_cacat': defectType,
+    'point': defectPoint,
+    'meter': encoderPos
+  });
+  appendDefectRow(
+    encoderPos,
+    defectType,
+    defectPoint
+  );
+  resetDefectState();
 };
+
+function resetDefectState() {
+  defectType = null;
+  defectPoint = null;
+  resetDefectSelection();
+}

@@ -11,19 +11,36 @@
     <img src="assets/logo.png" alt="Logo" class="app-logo">
 
     <div class="container">
-    <div id="status" class="status">Connecting...</div>
+      <div id="status" class="status">Connecting...</div>
 
-    <div class="grid-2">
-        <input id="kpField" type="text" placeholder="KP" disabled>
-        <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
-        <input id="operatorField" type="text" placeholder="Operator" disabled>
-    </div>
+      <div class="grid-2">
+          <input id="kpField" type="text" placeholder="KP" disabled>
+          <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
+          <input id="operatorField" type="text" placeholder="Operator" disabled>
+          <button id="stopBtn" hidden>Stop Session</button>
+      </div>
 
-    <button id="startBtn" disabled>Start Session</button>
-    <button id="stopBtn" hidden>Stop Session</button>
-    <button id="addInputBtn" hidden>New Defect</button>
-
-    <div id="dynamicInputs"></div>
+      <button id="startBtn" disabled>Start Session</button>
+      
+      <div id="grid-3" hidden>
+        <div id="sub-container-input"> 
+          <h3> Inputted List </h3>
+          <div id="dynamic-input-list"></div>
+        </div>
+        <div id="sub-container-defect-type"> 
+          <h3> Input Defect Type </h3> 
+          <div class="defect-list"></div>
+        </div>
+        <div id="sub-container-point"> 
+          <h3> Input Point </h3> 
+          <div class="point-list"></div>
+        </div>  
+        <div class="invis-sub-container"> 
+          <input class="encoder-pos" type="text" disabled="true" value="0 m">
+          <button id="send-defect-btn">Submit Defect</button>
+        </div>  
+      </div>
+      
     </div>
 </div>
 

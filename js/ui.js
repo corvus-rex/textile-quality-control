@@ -1,3 +1,14 @@
+let selectedPoint = null;
+let selectedDefectType = null;
+
+const DEFECT_OPTIONS = [
+  'AW','B','BAP','BKRT','BL','BLPT','BLPT GREY','BMC','BP','BR','BTA','BTL','BTS',
+  'BTT','BTTS','EXST','J','K','KOTOR','KRT','KTR','LB','LD','LK','LKC','LKI','LKS',
+  'LKT','LM','LOSP','LP','LPB','LPT','NODA','P.SLUB','PB','PD','PK','PKI','PKL',
+  'PKS','PLC','PM','PP','PS','PSS','PTM','PTR','PTS','RP','SA','SLUB','SMG','SMS',
+  'SNL','WP','WT'
+];
+
 export function setEnabled(enabled) {
   ["kpField", "texCodeField", "operatorField", "startBtn", "addInputBtn"].forEach(id => {
     const el = document.getElementById(id);
@@ -15,7 +26,76 @@ export function onSessionStart() {
 
   document.getElementById("startBtn").hidden = true;
   document.getElementById("stopBtn").hidden = false;
-  document.getElementById("addInputBtn").hidden = false;
+  document.getElementById("grid-3").hidden = false;
+  
+  const texCodeField = document.getElementById("texCodeField");
+  if (texCodeField) {
+    texCodeField.style.gridColumn = "span 2";
+  }
+
+  const operatorField = document.getElementById("operatorField");
+  if (operatorField) {
+    operatorField.style.gridColumn = "span 2";
+  }
+
+  const stopBtn = document.getElementById("stopBtn");
+  if (stopBtn) {
+    stopBtn.style.gridColumn = "span 2";
+  }
+}
+
+export function initPointButtons(onSelect) {
+  const container = document.querySelector(".point-list");
+  container.innerHTML = "";
+
+  selectedPoint = null;
+
+  for (let i = 1; i <= 4; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.className = "point-btn";
+
+    btn.onclick = () => {
+    
+      container.querySelectorAll(".point-btn").forEach(b => {
+        b.classList.remove("selected");
+      });
+
+       
+      btn.classList.add("selected");
+      selectedPoint = i;
+
+      onSelect(i);
+    };
+
+    container.appendChild(btn);
+  }
+}
+
+export function initDefectButtons(onSelect) {
+  const container = document.querySelector(".defect-list");
+  container.innerHTML = "";
+
+  selectedDefectType = null;
+
+  DEFECT_OPTIONS.forEach(defect => {
+    const btn = document.createElement("button");
+    btn.textContent = defect;
+    btn.className = "defect-btn";
+
+    btn.onclick = () => {
+      container.querySelectorAll(".defect-btn").forEach(b => {
+        b.classList.remove("selected");
+      });
+
+      btn.classList.add("selected");
+      selectedDefectType = defect;
+
+      onSelect(defect);
+    };
+
+    container.appendChild(btn);
+  });
 }
 
 export function onSessionStop() {
@@ -26,16 +106,22 @@ export function onSessionStop() {
 
   document.getElementById("startBtn").hidden = false;
   document.getElementById("stopBtn").hidden = true;
-  document.getElementById("addInputBtn").hidden = true;
+  document.getElementById("grid-3").hidden = true;
+  const texCodeField = document.getElementById("texCodeField");
+  if (texCodeField) {
+    texCodeField.style.gridColumn = "span 3";
+  }
 
-  const container = document.getElementById("dynamicInputs");
-  if (container) container.innerHTML = "";
+  const operatorField = document.getElementById("operatorField");
+  if (operatorField) {
+    operatorField.style.gridColumn = "span 3";
+  }
 }
 export function setCurPos(curPos) {
     const elements = document.getElementsByClassName('encoder-pos');
     
     for (let i = 0; i < elements.length; i++) {
-        elements[i].value = curPos;
+        elements[i].value = curPos + " m";
     }
 }
 
@@ -43,6 +129,7 @@ export function setSessionId(id) {
   const el = document.getElementById("sessionId");
   el.textContent = id ? `Session ID: ${id}` : "";
 }
+
 
 export function addDynamicInput(onSubmit, curPos) {
   const container = document.getElementById("dynamicInputs");
@@ -94,4 +181,43 @@ export function addDynamicInput(onSubmit, curPos) {
   row.appendChild(defectPoint);
   row.appendChild(sendDefectBtn);
   container.appendChild(row);
+}
+
+export function resetDefectSelection() {
+  document.querySelectorAll(".defect-btn, .point-btn").forEach(btn => {
+    btn.classList.remove("selected");
+  });
+}
+
+export function appendDefectRow(encoderPos, defectType, defectPoint) {
+  const list = document.getElementById("dynamic-input-list");
+  if (!list) return;
+
+  const row = document.createElement("div");
+  row.className = "defect-row";
+
+  const colPos = document.createElement("div");
+  colPos.className = "defect-col encoder-col";
+  colPos.textContent = encoderPos + " m";
+
+  const colType = document.createElement("div");
+  colType.className = "defect-col type-col";
+  colType.textContent = defectType;
+
+  const colPoint = document.createElement("div");
+  colPoint.className = "defect-col point-col";
+  colPoint.textContent = defectPoint;
+
+  row.appendChild(colPos);
+  row.appendChild(colType);
+  row.appendChild(colPoint);
+
+  list.appendChild(row);
+}
+
+export function clearDefectList() {
+  const list = document.getElementById("dynamic-input-list");
+  if (list) {
+    list.innerHTML = "";
+  }
 }
