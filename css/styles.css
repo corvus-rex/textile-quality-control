@@ -126,6 +126,18 @@ body {
   text-align: center;
 }
 
+#shiftField {
+  grid-column: span 3;
+}
+
+#insField {
+  grid-column: span 3;
+}
+
+#tglProsesField {
+  grid-column: span 2;
+}
+
 #dateField {
   grid-column: span 1;
 }

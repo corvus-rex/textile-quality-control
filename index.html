@@ -14,7 +14,7 @@
       <div id="status" class="status">Connecting...</div>
 
       <h2>Roll Section</h2>
-      <div class="grid-2 roll-section">
+      <div class="grid-2" id="roll-section">
           <input id="dateField" type="date" disabled>
           <select id="typeField">
             <option value="">Tipe Kain</option>
@@ -36,12 +36,20 @@
         <input id="tglNaikField" type="date" placeholder="Tgl Naik">
         <input id="tglPotField" type="date" placeholder="Tgl Pot">
         <input id="potField" type="text" placeholder="Pot">
-        <input id="insPotField" type="text" placeholder="Ins. Pot">
+        <input id="insPotField" type="text" placeholder="Ins Pot">
         <input id="paField" type="number" step="0.01" placeholder="PA">
         <input id="lebarField" type="number" placeholder="Lebar">
         <input id="baField" type="number" step="0.01" placeholder="BA">
         <input id="tagIdField" type="number" placeholder="Tag ID">
-        <input id="insGrField" type="text" placeholder="Ins. Gr">
+        <input id="insGrField" type="text" placeholder="Ins Gr">
+      </div>
+
+      
+      <h2 id="bbsf-header">BBSF Section</h2>
+      <div class="grid-2" id="bbsf-section">
+        <input id="shiftField" type="text" placeholder="Shift">
+        <input id="insField" type="text" placeholder="Ins">
+        <input id="tglProsesField" type="date" placeholder="Tgl Proses">
       </div>
 
       <button id="startBtn" disabled>Start Session</button>

@@ -57,6 +57,12 @@ export function onSessionStart() {
   if (weavingHeader) weavingHeader.hidden = true;
   if (weavingSection) weavingSection.hidden = true;
 
+  // Hide weaving section
+  const bbsfHeader = document.getElementById("bbsf-header");
+  const bbsfSection = document.getElementById("bbsf-section");
+  if (bbsfHeader) bbsfHeader.hidden = true;
+  if (bbsfSection) bbsfSection.hidden = true;
+
   const texCodeField = document.getElementById("texCodeField");
   if (texCodeField) {
     texCodeField.style.gridColumn = "span 1";
@@ -138,6 +144,12 @@ export function onSessionStop() {
   const weavingSection = document.getElementById("weaving-section");
   if (weavingHeader) weavingHeader.hidden = false;
   if (weavingSection) weavingSection.hidden = false;
+
+  // Show BBSF section
+  const bbsfHeader = document.getElementById("bbsf-header");
+  const bbsfSection = document.getElementById("bbsf-section");
+  if (bbsfHeader) bbsfHeader.hidden = false;
+  if (bbsfSection) bbsfSection.hidden = false;
 
   document.getElementById("startBtn").hidden = false;
   document.getElementById("stopBtn").hidden = true;
