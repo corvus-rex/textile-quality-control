@@ -102,16 +102,38 @@ body {
 
 
 .invis-sub-container {
-  display: grid;
-  align-items: center;
-  justify-items: stretch;
-  gap: 8px;
+  grid-column: span 1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#sub-container-susut-list {
+  grid-column: span 2;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+#sub-container-susut-table {
+  grid-column: span 4;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
 }
 
 .invis-sub-container .encoder-pos,
 .invis-sub-container .send-defect-btn {
   width: 100%;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
 .invis-sub-container .encoder-pos {
@@ -123,6 +145,11 @@ body {
 #sub-container-input h3,
 #sub-container-defect-type h3,
 #sub-container-point h3 {
+  text-align: center;
+}
+
+#sub-container-susut-list h3,
+#sub-container-susut-table h3{
   text-align: center;
 }
 
@@ -250,6 +277,43 @@ input, button {
   font-weight: 600;
 }
 
+
+.susut-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(124, 58, 237, 0.12);
+  font-size: 0.9rem;
+}
+
+.susut-col {
+  text-align: center;
+}
+
+.encoder-col {
+  font-weight: 600;
+}
+
+.susut-val-col {
+  text-align: left;
+  font-weight: 600;
+}
+
 [hidden] {
   display: none !important;
+}
+
+.susut-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.susut-table th,
+.susut-table td {
+  border: 1px solid #7c3aed;
+  padding: 6px;
+  text-align: center;
 }

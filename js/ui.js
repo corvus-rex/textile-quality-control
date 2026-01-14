@@ -269,3 +269,32 @@ export function clearDefectList() {
     list.innerHTML = "";
   }
 }
+
+
+export function appendSusutRow(encoderPos, defectType) {
+  const list = document.getElementById("dynamic-susut-list");
+  if (!list) return;
+
+  const row = document.createElement("div");
+  row.className = "susut-row";
+
+  const colPos = document.createElement("div");
+  colPos.className = "susut-col encoder-col";
+  colPos.textContent = `${Math.floor(Number(encoderPos))} m`;
+
+  const colVal = document.createElement("div");
+  colVal.className = "susut-col susut-val-col";
+  colVal.textContent = defectType;
+
+  row.appendChild(colPos);
+  row.appendChild(colVal);
+
+  list.appendChild(row);
+}
+
+export function clearSusutList() {
+  const list = document.getElementById("dynamic-susut-list");
+  if (list) {
+    list.innerHTML = "";
+  }
+}
