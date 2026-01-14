@@ -21,8 +21,8 @@ wss.on("connection", ws => {
         meter: encoderPos
       }));
 
-      encoderPos += 1;
-    }, 5000);
+      encoderPos += 0.5;
+    }, 2000);
   }
 
   function stopEncoder() {

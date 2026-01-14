@@ -1,6 +1,29 @@
 let selectedPoint = null;
 let selectedDefectType = null;
 
+// ON LOAD
+const dateField = document.getElementById("dateField");
+if (dateField) {
+  dateField.value = new Date().toISOString().split("T")[0];
+}
+
+const typeField = document.getElementById("typeField");
+const customTypeField = document.getElementById("customTypeField");
+typeField.addEventListener("change", () => {
+  if (typeField.value === "Custom") {
+    customTypeField.hidden = false;
+    customTypeField.disabled = false;
+
+    typeField.style.gridColumn = "span 1";   
+  } else {
+    customTypeField.hidden = true;
+    customTypeField.disabled = true;
+    customTypeField.value = "";
+
+    typeField.style.gridColumn = "span 2"; 
+  }
+});
+
 const DEFECT_OPTIONS = [
   'AW','B','BAP','BKRT','BL','BLPT','BLPT GREY','BMC','BP','BR','BTA','BTL','BTS',
   'BTT','BTTS','EXST','J','K','KOTOR','KRT','KTR','LB','LD','LK','LKC','LKI','LKS',
@@ -27,15 +50,15 @@ export function onSessionStart() {
   document.getElementById("startBtn").hidden = true;
   document.getElementById("stopBtn").hidden = false;
   document.getElementById("grid-3").hidden = false;
-  
+
   const texCodeField = document.getElementById("texCodeField");
   if (texCodeField) {
-    texCodeField.style.gridColumn = "span 2";
+    texCodeField.style.gridColumn = "span 1";
   }
 
   const operatorField = document.getElementById("operatorField");
   if (operatorField) {
-    operatorField.style.gridColumn = "span 2";
+    operatorField.style.gridColumn = "span 1";
   }
 
   const stopBtn = document.getElementById("stopBtn");
@@ -109,20 +132,21 @@ export function onSessionStop() {
   document.getElementById("grid-3").hidden = true;
   const texCodeField = document.getElementById("texCodeField");
   if (texCodeField) {
-    texCodeField.style.gridColumn = "span 3";
+    texCodeField.style.gridColumn = "span 2";
   }
 
   const operatorField = document.getElementById("operatorField");
   if (operatorField) {
-    operatorField.style.gridColumn = "span 3";
+    operatorField.style.gridColumn = "span 2";
   }
 }
 export function setCurPos(curPos) {
-    const elements = document.getElementsByClassName('encoder-pos');
-    
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].value = curPos + " m";
-    }
+  const elements = document.getElementsByClassName("encoder-pos");
+  const formatted = Number(curPos).toFixed(1);
+
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].value = `${formatted} m`;
+  }
 }
 
 export function setSessionId(id) {
@@ -198,7 +222,7 @@ export function appendDefectRow(encoderPos, defectType, defectPoint) {
 
   const colPos = document.createElement("div");
   colPos.className = "defect-col encoder-col";
-  colPos.textContent = encoderPos + " m";
+  colPos.textContent = `${Math.floor(Number(encoderPos))} m`;
 
   const colType = document.createElement("div");
   colType.className = "defect-col type-col";

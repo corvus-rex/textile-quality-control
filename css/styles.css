@@ -54,6 +54,10 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 12px;
+  max-width: 90vw;      
+  width: 100%;          
+  margin-left: auto;   
+  margin-right: auto;  
 }
 
 #grid-3 {
@@ -122,16 +126,28 @@ body {
   text-align: center;
 }
 
-#kpField {
+#dateField {
+  grid-column: span 1;
+}
+
+#typeField {
   grid-column: span 2;
 }
 
+#customTypeField {
+  grid-column: span 1;
+}
+
+#kpField {
+  grid-column: span 1;
+}
+
 #texCodeField {
-  grid-column: span 3;
+  grid-column: span 2;  
 }
 
 #operatorField {
-  grid-column: span 3;
+  grid-column: span 2;
 }
 
 input, button {

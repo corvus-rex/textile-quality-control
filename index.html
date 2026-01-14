@@ -13,11 +13,25 @@
     <div class="container">
       <div id="status" class="status">Connecting...</div>
 
-      <div class="grid-2">
+      <h2>Roll Section</h2>
+      <div class="grid-2 roll-section">
+          <input id="dateField" type="date" disabled>
+          <select id="typeField">
+            <option value="">Tipe Kain</option>
+            <option value="Sinaran">Sinaran</option>
+            <option value="JD Denim">JD Denim</option>
+            <option value="Custom">Custom</option>
+          </select>
+          <input id="customTypeField" type="text" placeholder="Tipe Kain" hidden disabled>
           <input id="kpField" type="text" placeholder="KP" disabled>
           <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
           <input id="operatorField" type="text" placeholder="Operator" disabled>
           <button id="stopBtn" hidden>Stop Session</button>
+      </div>
+
+      <h2>Weaving Section</h2>
+      <div class="grid-2 weaving-section">
+        
       </div>
 
       <button id="startBtn" disabled>Start Session</button>
