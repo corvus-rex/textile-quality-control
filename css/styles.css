@@ -72,6 +72,8 @@ body {
   border: 2px solid #7c3aed;
   padding: 20px;
   border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
 
   box-shadow:
     0 4px 12px rgba(124, 58, 237, 0.25),
@@ -80,9 +82,12 @@ body {
 
 #sub-container-defect-type {
   grid-column: span 4;
+  grid-row: span 2;
   border: 2px solid #7c3aed;
   padding: 20px;
   border-radius: 8px;
+  max-height: 500px;
+  overflow-y: auto;
 
   box-shadow:
     0 4px 12px rgba(124, 58, 237, 0.25),
@@ -119,10 +124,12 @@ body {
 }
 
 #sub-container-susut-table {
-  grid-column: span 4;
+  grid-column: span 2;
   border: 2px solid #7c3aed;
   padding: 20px;
   border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
 
   box-shadow:
     0 4px 12px rgba(124, 58, 237, 0.25),

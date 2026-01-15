@@ -241,12 +241,25 @@ export function appendDefectRow(encoderPos, defectType, defectPoint) {
   const list = document.getElementById("dynamic-input-list");
   if (!list) return;
 
-  const row = document.createElement("div");
+  const meterKey = Math.floor(Number(encoderPos));
+
+  let row = list.querySelector(
+    `.defect-row[data-meter="${meterKey}"]`
+  );
+
+  if (row) {
+    row.querySelector(".type-col").textContent = defectType;
+    row.querySelector(".point-col").textContent = defectPoint;
+    return;
+  }
+
+  row = document.createElement("div");
   row.className = "defect-row";
+  row.dataset.meter = meterKey;
 
   const colPos = document.createElement("div");
   colPos.className = "defect-col encoder-col";
-  colPos.textContent = `${Math.floor(Number(encoderPos))} m`;
+  colPos.textContent = `${meterKey} m`;
 
   const colType = document.createElement("div");
   colType.className = "defect-col type-col";

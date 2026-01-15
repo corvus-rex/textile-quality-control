@@ -2,12 +2,10 @@ import { connect, send } from "./ws.js";
 import { setEnabled, clearDefectList, clearSusutList, appendDefectRow, appendSusutRow, onSessionStart, onSessionStop, setCurPos, resetDefectSelection, initPointButtons, initDefectButtons, setSessionId } from "./ui.js";
 
 const SUSUT_RANGES = [
-  { label: "0–10", min: 0, max: 11 },
-  { label: "11–30", min: 11, max: 31 },
-  { label: "31–40", min: 31, max: 41 },
+  { label: "0–10", min: 0, max: 10 },
+  { label: "30–40", min: 30, max: 40 },
   { label: "41–60", min: 41, max: 61 },
-  { label: "61–70", min: 61, max: 71 },
-  { label: "71–100", min: 71, max: 101 },
+  { label: "60–70", min: 60, max: 70 },
   { label: "100+", min: 101, max: Infinity }
 ];
 
@@ -124,7 +122,7 @@ sendSusutBtn.onclick = () => {
   send("send_susut", {
     'id': sessionId,
     'susut': susutField.value,
-    'meter': encoderPos
+    'meter': encoderPos 
   });
   appendSusutRow(
     encoderPos,
