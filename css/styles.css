@@ -366,3 +366,109 @@ input, button {
 .susut-table input[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+#grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+
+#sub-container-result {
+  grid-column: span 2;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+#sub-container-update-summary {
+  display: grid;
+  grid-column: span 4;
+  border: 2px solid #7c3aed;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 12px;
+
+  padding: 16px;
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+#sub-container-update-summary input,
+#sub-container-update-summary select,
+#sub-container-update-summary textarea {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#ketEfField {
+  grid-column: span 4;
+  resize: vertical;
+}
+
+#sub-container-update-summary h3 {
+  grid-column: 1 / -1;   /* span all columns */
+  margin: 0 0 8px 0;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid #7c3aed;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.result-table th {
+  background-color: rgba(124, 58, 237, 0.08);
+  font-weight: 600;
+}
+
+.submit-summary-btn {
+  grid-column: span 2;
+
+  height: 80px;
+  width: 50%;
+  justify-self: center;
+
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  background-color: #7c3aed;
+  color: #fff;
+}
+
+.submit-summary-btn:hover {
+  background-color: #6d28d9;
+}

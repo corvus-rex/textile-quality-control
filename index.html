@@ -85,6 +85,77 @@
           <button id="send-susut-btn">Submit Susut</button>
         </div>
       </div>
+
+      <div id="grid-4" hidden>
+        <div id="sub-container-result">
+          <h3>Result</h3>
+            <table class="result-table">
+              <tr><th>Meter</th><td id="res-meter"></td></tr>
+              <tr><th>Yard</th><td id="res-yard"></td></tr>
+              <tr><th>K</th><td id="res-k"></td></tr>
+              <tr><th>CM/CD</th><td id="res-cmcd"></td></tr>
+              <tr><th>TP</th><td id="res-tp"></td></tr>
+              <tr><th>PG</th><td id="res-pg"></td></tr>
+              <tr><th>Grd</th><td id="res-grd"></td></tr>
+            </table>
+        </div>
+        <div id="sub-container-update-summary">
+          <h3>Update Summary</h3>
+
+          <input
+            id="cmField"
+            type="number"
+            step="0.01"
+            placeholder="CM"
+          >
+
+          <input
+            id="beratField"
+            type="number"
+            step="0.01"
+            placeholder="Berat"
+          >
+
+          <input
+            id="lfField"
+            type="number"
+            step="0.01"
+            placeholder="LF"
+          >
+
+          <input
+            id="slField"
+            type="number"
+            step="1"
+            placeholder="SL"
+          >
+
+          <input
+            id="ssField"
+            type="text"
+            placeholder="SS"
+          >
+
+          <select id="gradeField">
+            <option value="">Grade</option>
+            <option value="Axp">Axp</option>
+            <option value="ALK">ALK</option>
+            <option value="LUPPER">LUPPER</option>
+            <option value="ABL">ABL</option>
+            <option value="CSP">CSP</option>
+            <option value="EF">EF</option>
+          </select>
+
+          <textarea
+            id="ketEfField"
+            placeholder="Ket EF"
+            rows="4"
+          ></textarea>
+        </div>
+        <button id="submitSummaryBtn" class="submit-summary-btn">
+          Submit Summary
+        </button>
+      </div>
       
     </div>
 </div>
