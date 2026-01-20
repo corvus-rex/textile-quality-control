@@ -324,3 +324,23 @@ input, button {
   padding: 6px;
   text-align: center;
 }
+
+.defect-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 60px 30px;
+  gap: 8px;
+  align-items: center;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.delete-btn:hover {
+  color: #dc2626;
+}

@@ -247,12 +247,14 @@ export function appendDefectRow(encoderPos, defectType, defectPoint) {
     `.defect-row[data-meter="${meterKey}"]`
   );
 
+  // update existing row
   if (row) {
     row.querySelector(".type-col").textContent = defectType;
     row.querySelector(".point-col").textContent = defectPoint;
     return;
   }
 
+  // create new row
   row = document.createElement("div");
   row.className = "defect-row";
   row.dataset.meter = meterKey;
@@ -269,9 +271,26 @@ export function appendDefectRow(encoderPos, defectType, defectPoint) {
   colPoint.className = "defect-col point-col";
   colPoint.textContent = defectPoint;
 
+  // ❌ delete column
+  const colDelete = document.createElement("div");
+  colDelete.className = "defect-col delete-col";
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.textContent = "✕";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.title = "Delete row";
+
+  deleteBtn.onclick = () => {
+    row.remove();
+  };
+
+  colDelete.appendChild(deleteBtn);
+
   row.appendChild(colPos);
   row.appendChild(colType);
   row.appendChild(colPoint);
+  row.appendChild(colDelete);
 
   list.appendChild(row);
 }
