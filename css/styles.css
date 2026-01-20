@@ -344,3 +344,25 @@ input, button {
 .delete-btn:hover {
   color: #dc2626;
 }
+
+.susut-table input {
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.susut-table input[type="number"] {
+  padding: 1px 2px;
+}
+
+/* Chrome, Edge, Safari */
+.susut-table input[type="number"]::-webkit-inner-spin-button,
+.susut-table input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.susut-table input[type="number"] {
+  -moz-appearance: textfield;
+}

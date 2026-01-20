@@ -149,13 +149,15 @@ function getEncoderRangeLabel(meter) {
 }
 
 function renderSusutTable() {
-  console.log("SOOO")
   const container = document.getElementById("sub-container-susut-table");
+  if (!container) return;
+
   container.innerHTML = "<h3>Susut Table</h3>";
 
   const table = document.createElement("table");
   table.className = "susut-table";
 
+  // header
   const headerRow = document.createElement("tr");
   headerRow.innerHTML = "<th></th>";
 
@@ -170,6 +172,7 @@ function renderSusutTable() {
 
   table.appendChild(headerRow);
 
+  // body
   SUSUT_RANGES.forEach(r => {
     const tr = document.createElement("tr");
 
@@ -179,7 +182,24 @@ function renderSusutTable() {
 
     headers.forEach(h => {
       const td = document.createElement("td");
-      td.textContent = susutTable[r.label][h] ?? 0;
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = 0;
+
+      const value = susutTable[r.label][h] ?? 0;
+      input.value = value;
+
+      // write-back on edit
+      input.onchange = () => {
+        const v = Math.max(0, Number(input.value) || 0);
+        input.value = v;
+
+        if (!susutTable[r.label]) susutTable[r.label] = {};
+        susutTable[r.label][h] = v;
+      };
+
+      td.appendChild(input);
       tr.appendChild(td);
     });
 
@@ -188,6 +208,7 @@ function renderSusutTable() {
 
   container.appendChild(table);
 }
+
 
 function handleSusutSubmit(susutValue, encoderPos) {
   const rangeLabel = getEncoderRangeLabel(encoderPos);
