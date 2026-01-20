@@ -1,5 +1,5 @@
 import { connect, send } from "./ws.js";
-import { setEnabled, clearDefectList, clearSusutList, appendDefectRow, appendSusutRow, onSessionStart, onSessionStop, setCurPos, resetDefectSelection, initPointButtons, initDefectButtons, setSessionId } from "./ui.js";
+import { setEnabled, clearDefectList, clearSusutList, appendSusutRow, onSessionStart, onSessionStop, setCurPos, resetDefectSelection, initPointButtons, initDefectButtons, setSessionId } from "./ui.js";
 
 const SUSUT_RANGES = [
   { label: "0–10", min: 0, max: 10 },
@@ -20,6 +20,23 @@ var kpField = document.getElementById("kpField");
 var texCodeField = document.getElementById("texCodeField");
 var operatorField = document.getElementById("operatorField");
 var susutField = document.getElementById("susut-input");
+var dateField = document.getElementById("dateField");
+var typeField = document.getElementById("typeField");
+var customTypeField = document.getElementById("customTypeField");
+var nbField = document.getElementById("nbField");
+var mcField = document.getElementById("mcField");
+var tglNaikField = document.getElementById("tglNaikField");
+var tglPotField = document.getElementById("tglPotField");
+var potField = document.getElementById("potField");
+var insPotField = document.getElementById("insPotField");
+var paField = document.getElementById("paField");
+var lebarField = document.getElementById("lebarField");
+var baField = document.getElementById("baField");
+var tagIdField = document.getElementById("tagIdField");
+var insGrField = document.getElementById("insGrField");
+var shiftField = document.getElementById("shiftField");
+var insField = document.getElementById("insField");
+var tglProsesField = document.getElementById("tglProsesField");
 
 let sessionId = null;
 let encoderPos = 0;
@@ -75,9 +92,31 @@ connect(
 
 startBtn.onclick = () => {
   send("start_session", {
+    /* ===== Roll Section ===== */
+    date: dateField.value,
+    type: typeField.value,
+    custom_type: customTypeField.value,
     kp: kpField.value,
     tex_code: texCodeField.value,
-    operator: operatorField.value
+    operator: operatorField.value,
+
+    /* ===== Weaving Section ===== */
+    nb: nbField.value,
+    mc: mcField.value,
+    tgl_naik: tglNaikField.value,
+    tgl_pot: tglPotField.value,
+    pot: potField.value,
+    ins_pot: insPotField.value,
+    pa: paField.value,
+    lebar: lebarField.value,
+    ba: baField.value,
+    tag_id: tagIdField.value,
+    ins_gr: insGrField.value,
+
+    /* ===== BBSF Section ===== */
+    shift: shiftField.value,
+    ins: insField.value,
+    tgl_proses: tglProsesField.value
   });
 };
 
@@ -250,4 +289,74 @@ function resetSusutTable() {
   if (tableContainer) {
     tableContainer.innerHTML = "<h3>Susut Table</h3>";
   }
+}
+
+function appendDefectRow(encoderPos, defectType, defectPoint) {
+  const list = document.getElementById("dynamic-input-list");
+  if (!list) return;
+
+  const meterKey = Math.floor(Number(encoderPos));
+
+  let row = list.querySelector(
+    `.defect-row[data-meter="${meterKey}"]`
+  );
+
+  // update existing row
+  if (row) {
+    row.dataset.jenisCacat = defectType;
+    row.dataset.point = defectPoint;
+
+    row.querySelector(".type-col").textContent = defectType;
+    row.querySelector(".point-col").textContent = defectPoint;
+    return;
+  }
+
+  // create new row
+  row = document.createElement("div");
+  row.className = "defect-row";
+  row.dataset.meter = meterKey;
+  row.dataset.jenisCacat = defectType;
+  row.dataset.point = defectPoint;
+
+  const colPos = document.createElement("div");
+  colPos.className = "defect-col encoder-col";
+  colPos.textContent = `${meterKey} m`;
+
+  const colType = document.createElement("div");
+  colType.className = "defect-col type-col";
+  colType.textContent = defectType;
+
+  const colPoint = document.createElement("div");
+  colPoint.className = "defect-col point-col";
+  colPoint.textContent = defectPoint;
+
+  // delete column
+  const colDelete = document.createElement("div");
+  colDelete.className = "defect-col delete-col";
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.textContent = "✕";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.title = "Delete row";
+
+  deleteBtn.onclick = () => {
+    send("delete_defect", {
+      id: sessionId,
+      jenis_cacat: row.dataset.jenisCacat,
+      point: row.dataset.point,
+      meter: Number(row.dataset.meter)
+    });
+
+    row.remove();
+  };
+
+  colDelete.appendChild(deleteBtn);
+
+  row.appendChild(colPos);
+  row.appendChild(colType);
+  row.appendChild(colPoint);
+  row.appendChild(colDelete);
+
+  list.appendChild(row);
 }

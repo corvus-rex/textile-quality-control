@@ -1,3 +1,5 @@
+import { send } from "./ws.js";
+
 let selectedPoint = null;
 let selectedDefectType = null;
 
@@ -245,64 +247,6 @@ export function resetDefectSelection() {
   document.querySelectorAll(".defect-btn, .point-btn").forEach(btn => {
     btn.classList.remove("selected");
   });
-}
-
-export function appendDefectRow(encoderPos, defectType, defectPoint) {
-  const list = document.getElementById("dynamic-input-list");
-  if (!list) return;
-
-  const meterKey = Math.floor(Number(encoderPos));
-
-  let row = list.querySelector(
-    `.defect-row[data-meter="${meterKey}"]`
-  );
-
-  // update existing row
-  if (row) {
-    row.querySelector(".type-col").textContent = defectType;
-    row.querySelector(".point-col").textContent = defectPoint;
-    return;
-  }
-
-  // create new row
-  row = document.createElement("div");
-  row.className = "defect-row";
-  row.dataset.meter = meterKey;
-
-  const colPos = document.createElement("div");
-  colPos.className = "defect-col encoder-col";
-  colPos.textContent = `${meterKey} m`;
-
-  const colType = document.createElement("div");
-  colType.className = "defect-col type-col";
-  colType.textContent = defectType;
-
-  const colPoint = document.createElement("div");
-  colPoint.className = "defect-col point-col";
-  colPoint.textContent = defectPoint;
-
-  // ❌ delete column
-  const colDelete = document.createElement("div");
-  colDelete.className = "defect-col delete-col";
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.type = "button";
-  deleteBtn.textContent = "✕";
-  deleteBtn.className = "delete-btn";
-  deleteBtn.title = "Delete row";
-
-  deleteBtn.onclick = () => {
-    row.remove();
-  };
-
-  colDelete.appendChild(deleteBtn);
-
-  row.appendChild(colPos);
-  row.appendChild(colType);
-  row.appendChild(colPoint);
-  row.appendChild(colDelete);
-
-  list.appendChild(row);
 }
 
 export function clearDefectList() {
