@@ -139,21 +139,30 @@ export function onSessionStop() {
     if (el) el.disabled = false;
   });
 
-  // Show weaving section
+  // Hide grid-2 sections (Roll / Weaving / BBSF)
+  const rollSection = document.getElementById("roll-section");
+  if (rollSection) rollSection.hidden = true;
+
   const weavingHeader = document.getElementById("weaving-header");
   const weavingSection = document.getElementById("weaving-section");
-  if (weavingHeader) weavingHeader.hidden = false;
-  if (weavingSection) weavingSection.hidden = false;
+  if (weavingHeader) weavingHeader.hidden = true;
+  if (weavingSection) weavingSection.hidden = true;
 
-  // Show BBSF section
   const bbsfHeader = document.getElementById("bbsf-header");
   const bbsfSection = document.getElementById("bbsf-section");
-  if (bbsfHeader) bbsfHeader.hidden = false;
-  if (bbsfSection) bbsfSection.hidden = false;
+  if (bbsfHeader) bbsfHeader.hidden = true;
+  if (bbsfSection) bbsfSection.hidden = true;
 
-  document.getElementById("startBtn").hidden = false;
-  document.getElementById("stopBtn").hidden = true;
+  // Hide defect / susut section
   document.getElementById("grid-3").hidden = true;
+
+  // Show result & summary section
+  document.getElementById("grid-4").hidden = false;
+
+  // Buttons
+  document.getElementById("stopBtn").hidden = true;
+
+  // Restore grid spans
   const texCodeField = document.getElementById("texCodeField");
   if (texCodeField) {
     texCodeField.style.gridColumn = "span 2";
@@ -164,6 +173,7 @@ export function onSessionStop() {
     operatorField.style.gridColumn = "span 2";
   }
 }
+
 export function setCurPos(curPos) {
   const elements = document.getElementsByClassName("encoder-pos");
   const formatted = Number(curPos).toFixed(1);

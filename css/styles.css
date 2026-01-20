@@ -472,3 +472,103 @@ input, button {
 .submit-summary-btn:hover {
   background-color: #6d28d9;
 }
+
+
+/* Grid */
+#grid-5 {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Shared summary container */
+.summary-box {
+  grid-column: span 4;
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+  padding: 16px;
+  background: transparent;
+  box-shadow:
+    0 4px 12px rgba(124, 58, 237, 0.25),
+    0 0 0 1px rgba(124, 58, 237, 0.15);
+}
+
+.summary-box h3 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Tables */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: transparent;
+}
+
+.summary-table th,
+.summary-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: left;
+  min-height: 28px;
+  background: transparent;
+}
+
+.summary-table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Defect & susut tables */
+.defect-summary-table th,
+.defect-summary-table td,
+.susut-summary-table th,
+.susut-summary-table td {
+  text-align: center;
+  background: transparent;
+}
+
+/* Susut table tighter columns */
+.susut-summary-table th,
+.susut-summary-table td {
+  min-width: 40px;
+}
+
+.new-session-box {
+  grid-column: span 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: none;
+  padding: 20px;
+}
+
+/* Button */
+.new-session-btn {
+  height: 40px;
+  min-width: 200px;
+  padding: 0 24px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  background: transparent;
+  color: #7c3aed;
+
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-session-btn:hover {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.new-session-btn:active {
+  transform: translateY(1px);
+}

@@ -71,10 +71,6 @@
           <input class="encoder-pos" type="text" disabled="true" value="0 m">
           <button id="send-defect-btn">Submit Defect</button>
         </div>  
-        <!-- <div id="sub-container-susut-list"> 
-          <h3> Susut List </h3>
-          <div id="dynamic-susut-list"></div>
-        </div> -->
         <div id="sub-container-susut-table"> 
           <h3> Susut Table </h3>
         </div>
@@ -156,7 +152,100 @@
           Submit Summary
         </button>
       </div>
-      
+      <div id="grid-5" hidden>
+
+        <!-- Roll Summary -->
+        <div id="sub-container-roll-summary" class="summary-box">
+          <h3>Roll Summary</h3>
+          <table class="summary-table">
+            <tr><th>Date</th><td></td></tr>
+            <tr><th>Tipe Kain</th><td></td></tr>
+            <tr><th>KP</th><td></td></tr>
+            <tr><th>Kode Kain</th><td></td></tr>
+            <tr><th>Operator</th><td></td></tr>
+          </table>
+        </div>
+
+        <!-- Weaving Summary -->
+        <div id="sub-container-weaving-summary" class="summary-box">
+          <h3>Weaving Summary</h3>
+          <table class="summary-table">
+            <tr><th>Nb</th><td></td></tr>
+            <tr><th>Mc</th><td></td></tr>
+            <tr><th>Tgl Naik</th><td></td></tr>
+            <tr><th>Tgl Pot</th><td></td></tr>
+            <tr><th>Pot</th><td></td></tr>
+            <tr><th>Ins. Pot</th><td></td></tr>
+            <tr><th>PA</th><td></td></tr>
+            <tr><th>Lebar</th><td></td></tr>
+            <tr><th>BA</th><td></td></tr>
+            <tr><th>Tag ID</th><td></td></tr>
+            <tr><th>Ins. Gr</th><td></td></tr>
+          </table>
+        </div>
+
+        <!-- BBSF Summary -->
+        <div id="sub-container-bbsf-summary" class="summary-box">
+          <h3>BBSF Summary</h3>
+          <table class="summary-table">
+            <tr><th>Shift</th><td></td></tr>
+            <tr><th>Ins</th><td></td></tr>
+            <tr><th>Tgl Proses</th><td></td></tr>
+          </table>
+        </div>
+
+        <!-- Defect List Summary -->
+        <div id="sub-container-defect-list-summary" class="summary-box">
+          <h3>Defect List Summary</h3>
+          <table class="summary-table defect-summary-table">
+            <thead>
+              <tr>
+                <th>Meter</th>
+                <th>Defect Type</th>
+                <th>Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- rows inserted later -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Susut Table Summary -->
+        <div id="sub-container-susut-table-summary" class="summary-box">
+          <h3>Susut Table Summary</h3>
+          <table class="summary-table susut-summary-table">
+            <thead>
+              <tr>
+                <th>Range</th>
+                <th>X1</th>
+                <th>X2</th>
+                <th>X3</th>
+                <th>X4</th>
+                <th>X5</th>
+                <th>Others</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1–10</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>11–30</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>31–40</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>41–60</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>61–70</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>71–100</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td>100+</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="sub-container-new-session" class="summary-box new-session-box">
+          <button id="newSessionBtn" class="new-session-btn">
+            New Session
+          </button>
+        </div>
+
+      </div>
+
     </div>
 </div>
 
