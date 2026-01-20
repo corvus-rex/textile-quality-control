@@ -158,11 +158,6 @@ function resetDefectState() {
 }
 
 sendSusutBtn.onclick = () => {
-  send("send_susut", {
-    'id': sessionId,
-    'susut': susutField.value,
-    'meter': encoderPos 
-  });
   appendSusutRow(
     encoderPos,
     susutField.value
@@ -272,6 +267,12 @@ function handleSusutSubmit(susutValue, encoderPos) {
   susutTable[rangeLabel][columnKey] += 1;
 
   renderSusutTable();
+  
+  send("send_susut", {
+    'id': sessionId,
+    'susut': susutField.value,
+    'meter': encoderPos 
+  });
 }
 
 function resetSusutTable() {

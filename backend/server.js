@@ -1,26 +1,35 @@
 const WebSocket = require("ws");
 const crypto = require("crypto");
 
-const wss = new WebSocket.Server({
-  port: 8080,
-  path: "/ws"
-});
+const wss = new WebSocket.Server({ port: 8080, path: "/ws" });
 
-/**
- * sessions structure:
- * Map {
- *   sessionId => {
- *     roll: {},
- *     weaving: {},
- *     bbsf: {},
- *     defects: []
- *   }
- * }
- */
 const sessions = new Map();
 
+/* ---------- SUSUT RANGES (AUTHORITATIVE IN BE) ---------- */
+const SUSUT_RANGES = [
+  { label: "1–10", min: 1, max: 10 },
+  { label: "11–30", min: 11, max: 30 },
+  { label: "31–40", min: 31, max: 40 },
+  { label: "41–60", min: 41, max: 60 },
+  { label: "61–70", min: 61, max: 70 },
+  { label: "71–100", min: 71, max: 100 },
+  { label: "100+", min: 101, max: Infinity }
+];
+
+// SAMPLE SUSUT OBJECT
+// susut_table = {
+//   columns: ["5", "7", "9", "11", "13", "others"],
+//   rows: {
+//     "1–10": { "5": 2, "others": 1 },
+//     "11–30": { "7": 3 }
+//   }
+// }
+
+function getRangeLabel(meter) {
+  return SUSUT_RANGES.find(r => meter >= r.min && meter <= r.max)?.label ?? null;
+}
+
 wss.on("connection", ws => {
-  let sessionId = null;
   let encoderPos = 0;
   let encoderInterval = null;
 
@@ -28,7 +37,6 @@ wss.on("connection", ws => {
     if (encoderInterval) return;
 
     encoderPos = 0;
-
     encoderInterval = setInterval(() => {
       if (ws.readyState !== WebSocket.OPEN) return;
 
@@ -42,7 +50,7 @@ wss.on("connection", ws => {
   }
 
   function stopEncoder() {
-    if (encoderInterval !== null) {
+    if (encoderInterval) {
       clearInterval(encoderInterval);
       encoderInterval = null;
     }
@@ -58,9 +66,12 @@ wss.on("connection", ws => {
 
     switch (message.command) {
 
-      /* ================= START SESSION ================= */
+      /* ---------------- START SESSION ---------------- */
       case "start_session": {
-        sessionId = crypto.randomBytes(8).toString("hex");
+        const sessionId = crypto.randomBytes(8).toString("hex");
+
+        const susutRows = {};
+        SUSUT_RANGES.forEach(r => susutRows[r.label] = {});
 
         sessions.set(sessionId, {
           roll: {
@@ -92,14 +103,16 @@ wss.on("connection", ws => {
             tgl_proses: message.tgl_proses ?? null
           },
 
-          defects: []
+          defects: [],
+
+          susut: {
+            columns: [],
+            rows: susutRows
+          }
         });
 
-        
-        console.log("=== SESSION STORED ===");
-        console.log("Session ID:", sessionId);
+        console.log("SESSION CREATED:");
         console.dir(sessions.get(sessionId), { depth: null });
-        console.log("======================");
 
         ws.send(JSON.stringify({
           command: "start_session_ack",
@@ -110,18 +123,39 @@ wss.on("connection", ws => {
         break;
       }
 
-      /* ================= END SESSION ================= */
-      case "end_session": {
-        stopEncoder();
+      /* ---------------- SEND SUSUT (CORE CHANGE) ---------------- */
+      case "send_susut": {
+        const session = sessions.get(message.id);
+        if (!session) return;
 
-        if (sessionId) {
-          sessions.delete(sessionId);
-          sessionId = null;
+        const susutValue = String(message.susut);
+        const meter = Number(message.meter);
+
+        const rangeLabel = getRangeLabel(meter);
+        if (!rangeLabel) return;
+
+        let columnKey;
+
+        if (session.susut.columns.includes(susutValue)) {
+          columnKey = susutValue;
+        } else if (session.susut.columns.length < 5) {
+          session.susut.columns.push(susutValue);
+          columnKey = susutValue;
+        } else {
+          columnKey = "others";
         }
+
+        const row = session.susut.rows[rangeLabel];
+
+        if (!row[columnKey]) row[columnKey] = 0;
+        row[columnKey] += 1;
+
+        console.log("SUSUT TABLE UPDATED:");
+        console.dir(session.susut, { depth: null });
         break;
       }
 
-      /* ================= ADD DEFECT ================= */
+      /* ---------------- SEND DEFECT ---------------- */
       case "send_defect": {
         const session = sessions.get(message.id);
         if (!session) return;
@@ -132,11 +166,10 @@ wss.on("connection", ws => {
           meter: message.meter
         });
 
-        console.log("Defect added:", message);
         break;
       }
 
-      /* ================= DELETE DEFECT ================= */
+      /* ---------------- DELETE DEFECT ---------------- */
       case "delete_defect": {
         const session = sessions.get(message.id);
         if (!session) return;
@@ -148,24 +181,29 @@ wss.on("connection", ws => {
             d.point === message.point
           )
         );
+        break;
+      }
 
-        console.log("Defect deleted:", message);
+      /* ---------------- END SESSION ---------------- */
+      case "end_session": {
+        stopEncoder();
+
+        const session = sessions.get(message.sessionId);
+        if (session) {
+          console.log("FINAL SESSION STATE:");
+          console.dir(session, { depth: null });
+        }
+
+        sessions.delete(message.sessionId);
         break;
       }
 
       default:
-        break;
+        console.warn("Unhandled command:", message.command);
     }
   });
 
-  ws.on("close", () => {
-    stopEncoder();
-
-    if (sessionId) {
-      sessions.delete(sessionId);
-      sessionId = null;
-    }
-  });
+  ws.on("close", stopEncoder);
 });
 
 console.log("WebSocket server running on ws://localhost:8080/ws");
