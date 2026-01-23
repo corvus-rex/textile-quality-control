@@ -4,17 +4,19 @@ import { setEnabled, clearDefectList, clearSusutList, appendSusutRow, onSessionS
 const SUSUT_RANGES = [
   { label: "0–10", min: 0, max: 10 },
   { label: "30–40", min: 30, max: 40 },
-  { label: "41–60", min: 41, max: 61 },
-  { label: "60–70", min: 60, max: 70 },
+  { label: "40–60", min: 41, max: 60 },
+  { label: "60–70", min: 61, max: 70 },
   { label: "100+", min: 101, max: Infinity }
 ];
 
-const backendURL = 'localhost:8080'
+const backendURL = 'localhost:8776'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
 const sendDefectBtn = document.getElementById("send-defect-btn");
 const sendSusutBtn = document.getElementById("send-susut-btn");
 const stopBtn = document.getElementById("stopBtn");
+const submitSummaryBtn = document.getElementById("submitSummaryBtn");
+const newSessionBtn = document.getElementById("newSessionBtn");
 
 var kpField = document.getElementById("kpField");
 var texCodeField = document.getElementById("texCodeField");
@@ -37,10 +39,19 @@ var insGrField = document.getElementById("insGrField");
 var shiftField = document.getElementById("shiftField");
 var insField = document.getElementById("insField");
 var tglProsesField = document.getElementById("tglProsesField");
+const cmField = document.getElementById("cmField");
+const beratField = document.getElementById("beratField");
+const lfField = document.getElementById("lfField");
+const slField = document.getElementById("slField");
+const ssField = document.getElementById("ssField");
+const gradeField = document.getElementById("gradeField");
+const ketEfField = document.getElementById("ketEfField");
 
 let sessionId = null;
 let encoderPos = 0;
 let defectSent = null;
+
+let lastReceivedGrade = null;
 
 let defectPoint = null;
 let defectType = null;
@@ -50,6 +61,7 @@ let susutTable = {};
 SUSUT_RANGES.forEach(r => {
   susutTable[r.label] = {};
 });
+
 
 const protocol = location.protocol === "https:" ? "wss" : "ws";
 const WS_URL = `${protocol}://${backendURL}/ws`;
@@ -84,6 +96,147 @@ connect(
         setCurPos(encoderPos.toFixed(1));
         break;
 
+      case "end_session_ack": {
+        console.log("SUMM")
+
+        const meter = Number(message["total_meter"]);
+        const yard  = Number(message["total_yard"]);
+        const tp    = Number(message["total_point"]);
+        const pg    = Number(message["point_grade"]);
+
+        document.getElementById("res-meter").textContent =
+          Number.isFinite(meter) ? meter.toFixed(1) : "";
+
+        document.getElementById("res-yard").textContent =
+          Number.isFinite(yard) ? yard.toFixed(1) : "";
+
+        document.getElementById("res-tp").textContent =
+          Number.isFinite(tp) ? Math.trunc(tp) : "";
+
+        document.getElementById("res-pg").textContent =
+          Number.isFinite(pg) ? pg.toFixed(2) : "";
+        
+        document.getElementById("res-grd").textContent =
+          message["grade"] ?? "";
+
+        lastReceivedGrade = message["grade"] ?? null;
+
+        break;
+      }
+
+      case "submit_summary_ack": {
+        const rollRows = document.querySelectorAll(
+          "#sub-container-roll-summary td"
+        );
+
+        rollRows[0].textContent = dateField.value || "";
+        rollRows[1].textContent =
+          typeField.value === "Custom"
+            ? customTypeField.value
+            : typeField.value || "";
+        rollRows[2].textContent = kpField.value || "";
+        rollRows[3].textContent = texCodeField.value || "";
+        rollRows[4].textContent = operatorField.value || "";
+
+        const weavingRows = document.querySelectorAll(
+          "#sub-container-weaving-summary td"
+        );
+
+        [
+          nbField.value,
+          mcField.value,
+          tglNaikField.value,
+          tglPotField.value,
+          potField.value,
+          insPotField.value,
+          paField.value,
+          lebarField.value,
+          baField.value,
+          tagIdField.value,
+          insGrField.value
+        ].forEach((val, i) => {
+          weavingRows[i].textContent = val || "";
+        });
+
+        const bbsfRows = document.querySelectorAll(
+          "#sub-container-bbsf-summary td"
+        );
+
+        [
+          shiftField.value,
+          insField.value,
+          tglProsesField.value
+        ].forEach((val, i) => {
+          bbsfRows[i].textContent = val || "";
+        });
+
+        const defectBody = document.querySelector(
+          ".defect-summary-table tbody"
+        );
+        defectBody.innerHTML = "";
+
+        document.querySelectorAll("#dynamic-input-list .defect-row")
+          .forEach(row => {
+            const meter = row.querySelector(".encoder-col")?.textContent || "";
+            const type = row.querySelector(".type-col")?.textContent || "";
+            const point = row.querySelector(".point-col")?.textContent || "";
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${meter}</td>
+              <td>${type}</td>
+              <td>${point}</td>
+            `;
+            defectBody.appendChild(tr);
+          }
+        );
+
+        const susutTableEl = document.querySelector(".susut-summary-table");
+        const theadRow = susutTableEl.querySelector("thead tr");
+
+        // clear old headers except "Range"
+        while (theadRow.cells.length > 1) {
+          theadRow.deleteCell(1);
+        }
+
+        // add FE-defined columns
+        susutColumns.forEach(col => {
+          const th = document.createElement("th");
+          th.textContent = col;
+          theadRow.appendChild(th);
+        });
+        const susutBody = susutTableEl.querySelector("tbody");
+
+        Array.from(susutBody.rows).forEach(row => {
+          const rangeLabel = row.cells[0].textContent.trim();
+          const rowData = susutTable[rangeLabel] || {};
+
+          // clear old cells
+          while (row.cells.length > 1) {
+            row.deleteCell(1);
+          }
+
+          // fill values in FE column order
+          susutColumns.forEach(col => {
+            const td = document.createElement("td");
+            td.textContent = rowData[col] ?? "";
+            row.appendChild(td);
+          });
+        });
+
+        sessionId = null;
+        encoderPos = 0;
+        setCurPos("0.0");
+
+        resetDefectState();
+        clearDefectList();
+        clearSusutList();
+        resetSusutTable();
+
+        document.getElementById("grid-4").hidden = true;
+        document.getElementById("grid-5").hidden = false;
+      }
+
       default:
         console.warn("Unhandled message:", message);
     }
@@ -94,8 +247,7 @@ startBtn.onclick = () => {
   send("start_session", {
     /* ===== Roll Section ===== */
     date: dateField.value,
-    type: typeField.value,
-    custom_type: customTypeField.value,
+    tex_type: typeField.value,
     kp: kpField.value,
     tex_code: texCodeField.value,
     operator: operatorField.value,
@@ -114,8 +266,8 @@ startBtn.onclick = () => {
     ins_gr: insGrField.value,
 
     /* ===== BBSF Section ===== */
-    shift: shiftField.value,
-    ins: insField.value,
+    shift_bbsf: shiftField.value,
+    ins_bbsf: insField.value,
     tgl_proses: tglProsesField.value
   });
 };
@@ -125,14 +277,6 @@ stopBtn.onclick = () => {
 
   send("end_session", { sessionId });
 
-  sessionId = null;
-  encoderPos = 0;
-  setCurPos("0.0");
-
-  resetDefectState();
-  clearDefectList();
-  clearSusutList();
-  resetSusutTable();
   onSessionStop();
 };
 
@@ -149,6 +293,29 @@ sendDefectBtn.onclick = () => {
     defectPoint
   );
   resetDefectState();
+};
+
+submitSummaryBtn.onclick = () => {
+  send("submit_summary", {
+    'id': sessionId,
+    'cm': Number(cmField.value) || "",
+    'berat': Number(beratField.value) || "",
+    'lf': Number(lfField.value) || "",
+    'sl': Number(slField.value) || "",
+    'ss': ssField.value || "",
+    'grade': gradeField.value || lastReceivedGrade || "",
+    'ket_ef': ketEfField.value || ""
+  });
+};
+
+newSessionBtn.onclick = () => {
+  // hide summary
+  const grid5 = document.getElementById("grid-5");
+  if (grid5) grid5.hidden = true;
+
+  // show roll section
+  const grid2 = document.getElementById("roll-section");
+  if (grid2) grid2.hidden = false;
 };
 
 function resetDefectState() {
@@ -268,10 +435,12 @@ function handleSusutSubmit(susutValue, encoderPos) {
 
   renderSusutTable();
   
-  send("send_susut", {
+  send("update_susut", {
     'id': sessionId,
-    'susut': susutField.value,
-    'meter': encoderPos 
+    'panjang': Number(susutField.value),
+    'meter_start': Number(encoderPos),
+    'meter_end': Number(encoderPos) + Number(susutField.value),
+    'jumlah': 1
   });
 }
 
@@ -344,8 +513,6 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
   deleteBtn.onclick = () => {
     send("delete_defect", {
       id: sessionId,
-      jenis_cacat: row.dataset.jenisCacat,
-      point: row.dataset.point,
       meter: Number(row.dataset.meter)
     });
 

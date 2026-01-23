@@ -7,12 +7,10 @@ const sessions = new Map();
 
 /* ---------- SUSUT RANGES (AUTHORITATIVE IN BE) ---------- */
 const SUSUT_RANGES = [
-  { label: "1–10", min: 1, max: 10 },
-  { label: "11–30", min: 11, max: 30 },
-  { label: "31–40", min: 31, max: 40 },
-  { label: "41–60", min: 41, max: 60 },
-  { label: "61–70", min: 61, max: 70 },
-  { label: "71–100", min: 71, max: 100 },
+  { label: "0–10", min: 0, max: 10 },
+  { label: "30–40", min: 30, max: 40 },
+  { label: "40–60", min: 41, max: 60 },
+  { label: "60–70", min: 61, max: 70 },
   { label: "100+", min: 101, max: Infinity }
 ];
 
@@ -190,11 +188,49 @@ wss.on("connection", ws => {
 
         const session = sessions.get(message.sessionId);
         if (session) {
-          console.log("FINAL SESSION STATE:");
+          console.log("SUMMARY SESSION STATE:");
           console.dir(session, { depth: null });
+
+          // generate dummy summary values
+          const summary = {
+            command: "summary",
+            id: message.sessionId,
+            "res-meter": +(Math.random() * 10).toFixed(2),
+            "res-yard": +(Math.random() * 10).toFixed(2),
+            "res-k": +(Math.random() * 10).toFixed(2),
+            "res-cmcd": +(Math.random() * 10).toFixed(2),
+            "res-tp": Math.floor(Math.random() * 10),
+            "res-pg": +(Math.random() * 10).toFixed(2),
+            "res-grd": +(Math.random() * 10).toFixed(2)
+          };
+
+          ws.send(JSON.stringify(summary));
         }
 
-        sessions.delete(message.sessionId);
+        break;
+      }
+
+      case "update_summary": {
+        const session = sessions.get(message.id);
+        if (!session) break;
+
+        session.update_summary = {
+          cm: message.cm,
+          berat: message.berat,
+          lf: message.lf,
+          sl: message.sl,
+          ss: message.ss,
+          grade: message.grade,
+          ket_ef: message.ket_ef
+        };
+
+        ws.send(JSON.stringify({
+          command: "final_summary",
+          id: message.id,
+          session
+        }));
+
+        sessions.delete(message.id);
         break;
       }
 
