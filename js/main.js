@@ -105,17 +105,20 @@ connect(
         const tp    = Number(message["total_point"]);
         const pg    = Number(message["point_grade"]);
 
+        document.getElementById("res-k").textContent = "0"
+        document.getElementById("res-cmcd").textContent = "0"
+
         document.getElementById("res-meter").textContent =
-          Number.isFinite(meter) ? meter.toFixed(1) : "";
+          Number.isFinite(meter) ? meter.toFixed(1) : "0";
 
         document.getElementById("res-yard").textContent =
-          Number.isFinite(yard) ? yard.toFixed(1) : "";
+          Number.isFinite(yard) ? yard.toFixed(1) : "0";
 
         document.getElementById("res-tp").textContent =
-          Number.isFinite(tp) ? Math.trunc(tp) : "";
+          Number.isFinite(tp) ? Math.trunc(tp) : "0";
 
         document.getElementById("res-pg").textContent =
-          Number.isFinite(pg) ? pg.toFixed(2) : "";
+          Number.isFinite(pg) ? pg.toFixed(2) : "0";
         
         document.getElementById("res-grd").textContent =
           message["grade"] ?? "";
@@ -550,4 +553,34 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
   row.appendChild(colDelete);
 
   list.appendChild(row);
+}
+
+const resK = document.getElementById("res-k");
+
+beratField.addEventListener("input", () => {
+  const yard = getNumber("res-yard");
+  const berat = Number(beratField.value) || 0;
+
+  if (yard > 0 && berat > 0) {
+    resK.textContent = (yard / berat).toFixed(2);
+  } else {
+    resK.textContent = "0";
+  }
+});
+
+const resCMCD = document.getElementById("res-cmcd");
+
+cmField.addEventListener("input", () => {
+  const meter = getNumber("res-meter");
+  const cm = Number(cmField.value) || 0;
+
+  if (meter > 0 && cm > 0) {
+    resCMCD.textContent = (cm / meter).toFixed(2);
+  } else {
+    resCMCD.textContent = "0";
+  }
+});
+
+function getNumber(id) {
+  return Number(document.getElementById(id)?.textContent) || 0;
 }

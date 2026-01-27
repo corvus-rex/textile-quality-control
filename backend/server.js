@@ -193,15 +193,15 @@ wss.on("connection", ws => {
 
           // generate dummy summary values
           const summary = {
-            command: "summary",
+            command: "end_session_ack",
             id: message.sessionId,
-            "res-meter": +(Math.random() * 10).toFixed(2),
-            "res-yard": +(Math.random() * 10).toFixed(2),
+            "total_meter": +(Math.random() * 10).toFixed(2),
+            "total_yard": +(Math.random() * 10).toFixed(2),
             "res-k": +(Math.random() * 10).toFixed(2),
             "res-cmcd": +(Math.random() * 10).toFixed(2),
-            "res-tp": Math.floor(Math.random() * 10),
-            "res-pg": +(Math.random() * 10).toFixed(2),
-            "res-grd": +(Math.random() * 10).toFixed(2)
+            "total_point": Math.floor(Math.random() * 10),
+            "point_grade": +(Math.random() * 10).toFixed(2),
+            "grade": +(Math.random() * 10).toFixed(2)
           };
 
           ws.send(JSON.stringify(summary));
