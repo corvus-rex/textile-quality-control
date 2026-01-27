@@ -15,7 +15,11 @@
 
       <h2 id="roll-header">Roll Section</h2>
       <div class="grid-2" id="roll-section">
-          <input id="dateField" type="date" disabled>
+        
+          <div class="field">
+            <label for="dateField">Tanggal</label>
+            <input id="dateField" type="date" disabled>
+          </div>
           <select id="typeField">
             <option value="">Tipe Kain</option>
             <option value="Sinaran">Sinaran</option>
@@ -33,8 +37,13 @@
       <div class="grid-2" id="weaving-section">
         <input id="nbField" type="number" placeholder="Nb">
         <input id="mcField" type="text" placeholder="Mc">
-        <input id="tglNaikField" type="date" placeholder="Tgl Naik">
-        <input id="tglPotField" type="date" placeholder="Tgl Pot">  
+        <input id="tglNaikField" type="text" placeholder="Tgl Naik">
+        
+        <div class="field">
+          <label for="tglPotField">Tgl Pot</label>  
+          <input id="tglPotField" type="date" placeholder="Tgl Pot">  
+        </div>
+        
         <input id="potField" type="text" placeholder="Pot">
         <input id="insPotField" type="text" placeholder="Ins Pot">
         <input id="paField" type="number" step="0.01" placeholder="PA">
@@ -49,7 +58,12 @@
       <div class="grid-2" id="bbsf-section">
         <input id="shiftField" type="text" placeholder="Shift">
         <input id="insField" type="text" placeholder="Ins">
-        <input id="tglProsesField" type="date" placeholder="Tgl Proses">
+
+        <div class="field">
+          <label for="tglProsesField">Tgl Proses</label>  
+          <input id="tglProsesField" type="date" placeholder="Tgl Proses">
+        </div>
+
       </div>
 
       <button id="startBtn" disabled>Start Session</button>

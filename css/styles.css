@@ -572,3 +572,14 @@ input, button {
 .new-session-btn:active {
   transform: translateY(1px);
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 12px;
+  opacity: 0.85;
+}
