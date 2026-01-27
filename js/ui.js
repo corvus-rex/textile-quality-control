@@ -53,6 +53,10 @@ export function onSessionStart() {
   document.getElementById("stopBtn").hidden = false;
   document.getElementById("grid-3").hidden = false;
 
+  // Hide roll section
+  const rollHeader = document.getElementById("roll-header");
+  if (rollHeader) rollHeader.hidden = true;
+
   // Hide weaving section
   const weavingHeader = document.getElementById("weaving-header");
   const weavingSection = document.getElementById("weaving-section");

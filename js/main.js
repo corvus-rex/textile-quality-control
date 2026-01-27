@@ -9,7 +9,8 @@ const SUSUT_RANGES = [
   { label: "100+", min: 101, max: Infinity }
 ];
 
-const backendURL = 'localhost:8776'
+// const backendURL = 'localhost:8776'
+const backendURL = 'localhost:8080'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
 const sendDefectBtn = document.getElementById("send-defect-btn");
@@ -316,6 +317,36 @@ newSessionBtn.onclick = () => {
   // show roll section
   const grid2 = document.getElementById("roll-section");
   if (grid2) grid2.hidden = false;
+
+  // show start button
+  document.getElementById("startBtn").hidden = false;
+
+  // Show roll section
+  const rollHeader = document.getElementById("roll-header");
+  if (rollHeader) rollHeader.hidden = true;
+
+  // Show weaving section
+  const weavingHeader = document.getElementById("weaving-header");
+  const weavingSection = document.getElementById("weaving-section");
+  if (weavingHeader) weavingHeader.hidden = false;
+  if (weavingSection) weavingSection.hidden = false;
+
+  // Show weaving section
+  const bbsfHeader = document.getElementById("bbsf-header");
+  const bbsfSection = document.getElementById("bbsf-section");
+  if (bbsfHeader) bbsfHeader.hidden = false;
+  if (bbsfSection) bbsfSection.hidden = false;
+
+  const texCodeField = document.getElementById("texCodeField");
+  if (texCodeField) {
+    texCodeField.style.gridColumn = "span 2";
+  }
+
+  const operatorField = document.getElementById("operatorField");
+  if (operatorField) {
+    operatorField.style.gridColumn = "span 2";
+  }
+
 };
 
 function resetDefectState() {

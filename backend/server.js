@@ -210,7 +210,7 @@ wss.on("connection", ws => {
         break;
       }
 
-      case "update_summary": {
+      case "submit_summary": {
         const session = sessions.get(message.id);
         if (!session) break;
 
@@ -225,7 +225,7 @@ wss.on("connection", ws => {
         };
 
         ws.send(JSON.stringify({
-          command: "final_summary",
+          command: "submit_summary_ack",
           id: message.id,
           session
         }));
