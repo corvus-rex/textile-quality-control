@@ -379,8 +379,6 @@ sendDefectBtn.onclick = () => {
     };
   }
 
-  defectSummary[defectType].totalPoint += Number(defectPoint) || 0;
-  defectSummary[defectType].count += 1;
   resetDefectState();
 };
 
@@ -607,8 +605,18 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
     `.defect-row[data-meter="${meterKey}"]`
   );
 
-  // update existing row
+  /* ---------- CASE 1: row already exists (same meter) ---------- */
   if (row) {
+    const oldType = row.dataset.jenisCacat;
+    const oldPoint = row.dataset.point;
+
+    // If same meter already has a defect then DO NOT increment summary
+    // but we must adjust summary if the defect type/point changes
+    if (oldType !== defectType || oldPoint !== String(defectPoint)) {
+      removeFromDefectSummary(oldType, oldPoint);
+      addToDefectSummary(defectType, defectPoint);
+    }
+
     row.dataset.jenisCacat = defectType;
     row.dataset.point = defectPoint;
 
@@ -617,7 +625,9 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
     return;
   }
 
-  // create new row
+  /* ---------- CASE 2: new row ---------- */
+  addToDefectSummary(defectType, defectPoint);
+
   row = document.createElement("div");
   row.className = "defect-row";
   row.dataset.meter = meterKey;
@@ -636,7 +646,7 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
   colPoint.className = "defect-col point-col";
   colPoint.textContent = defectPoint;
 
-  // delete column
+  /* ---------- delete button ---------- */
   const colDelete = document.createElement("div");
   colDelete.className = "defect-col delete-col";
 
@@ -651,8 +661,14 @@ function appendDefectRow(encoderPos, defectType, defectPoint) {
       id: sessionId,
       meter: Number(row.dataset.meter)
     });
+    console.log(defectSummary);
+    removeFromDefectSummary(
+      row.dataset.jenisCacat,
+      row.dataset.point
+    );
 
     row.remove();
+    console.log(defectSummary);
   };
 
   colDelete.appendChild(deleteBtn);
@@ -704,4 +720,29 @@ function getSusutRangeByEncoder(pos) {
   const p = Number(pos);
 
   return SUSUT_RANGES.find(r => p >= r.min && p <= r.max) || null;
+}
+
+function addToDefectSummary(type, point) {
+  if (!defectSummary[type]) {
+    defectSummary[type] = { count: 0, totalPoint: 0 };
+  }
+
+  defectSummary[type].count += 1;
+  defectSummary[type].totalPoint += Number(point);
+}
+
+function removeFromDefectSummary(type, point) {
+  if (!defectSummary[type]) return; 
+  console.log("aaa",defectSummary[type].count);
+
+  defectSummary[type].count -= 1;
+  defectSummary[type].totalPoint -= Number(point);
+  console.log("aaa",defectSummary[type].count);
+
+  if (
+    defectSummary[type].count <= 0 ||
+    defectSummary[type].totalPoint <= 0
+  ) {
+    delete defectSummary[type];
+  }
 }
