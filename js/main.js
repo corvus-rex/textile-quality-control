@@ -50,7 +50,7 @@ const ketEfField = document.getElementById("ketEfField");
 
 let sessionId = null;
 let encoderPos = 0;
-let defectSent = null;
+let defectSummary = {};
 
 let lastReceivedGrade = null;
 
@@ -264,6 +264,22 @@ connect(
         setText("sum-pg", pg);
         setText("sum-grd", grd);
 
+        const defectSummaryBody = document.querySelector(
+          ".defect-point-summary-table tbody"
+        );
+
+        defectSummaryBody.innerHTML = "";
+
+        Object.entries(defectSummary).forEach(([type, data]) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${type}</td>
+            <td>${data.totalPoint}</td>
+            <td>${data.count}</td>
+          `;
+          defectSummaryBody.appendChild(tr);
+        });
+
         document.getElementById("grid-4").hidden = true;
         document.getElementById("grid-5").hidden = false;
       }
@@ -323,6 +339,15 @@ sendDefectBtn.onclick = () => {
     defectType,
     defectPoint
   );
+  if (!defectSummary[defectType]) {
+    defectSummary[defectType] = {
+      totalPoint: 0,
+      count: 0
+    };
+  }
+
+  defectSummary[defectType].totalPoint += Number(defectPoint) || 0;
+  defectSummary[defectType].count += 1;
   resetDefectState();
 };
 
@@ -376,7 +401,7 @@ newSessionBtn.onclick = () => {
   if (operatorField) {
     operatorField.style.gridColumn = "span 2";
   }
-
+  defectSummary = {};
 };
 
 function resetDefectState() {
