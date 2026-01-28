@@ -237,6 +237,33 @@ connect(
         clearSusutList();
         resetSusutTable();
 
+        const meter = Number(document.getElementById("res-meter")?.textContent) || 0;
+        const yard  = Number(document.getElementById("res-yard")?.textContent) || 0;
+        const tp    = document.getElementById("res-tp")?.textContent || "";
+        const pg    = document.getElementById("res-pg")?.textContent || "";
+        const grd   = document.getElementById("res-grd")?.textContent || "";
+
+        // values from summary inputs
+        const berat = Number(beratField.value) || 0;
+        const cm    = Number(cmField.value) || 0;
+        const lf    = lfField.value || "";
+        const sl    = slField.value || "";
+        const ss    = ssField.value || "";
+
+        const kValue   = berat > 0 ? (yard / berat) : 0;
+
+        // fill summary table
+        setText("sum-k",    kValue ? kValue.toFixed(2) : "");
+        setText("sum-yard", yard ? `${yard.toFixed(1)} yard` : "");
+        setText("sum-berat", berat ? `${berat.toFixed(2)} kg` : "");
+        setText("sum-meter", meter ? `${meter.toFixed(1)} meter` : "");
+        setText("sum-lf", lf);
+        setText("sum-sl", sl);
+        setText("sum-ss", ss);
+        setText("sum-tp", tp);
+        setText("sum-pg", pg);
+        setText("sum-grd", grd);
+
         document.getElementById("grid-4").hidden = true;
         document.getElementById("grid-5").hidden = false;
       }
@@ -584,3 +611,8 @@ cmField.addEventListener("input", () => {
 function getNumber(id) {
   return Number(document.getElementById(id)?.textContent) || 0;
 }
+
+const setText = (id, value) => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value ?? "";
+};
