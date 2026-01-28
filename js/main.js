@@ -279,8 +279,8 @@ connect(
           const tr = document.createElement("tr");
           tr.innerHTML = `
             <td>${type}</td>
-            <td>${data.totalPoint}</td>
             <td>${data.count}</td>
+            <td>${data.totalPoint}</td>
           `;
           defectSummaryBody.appendChild(tr);
         });
