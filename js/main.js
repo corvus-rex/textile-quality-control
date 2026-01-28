@@ -452,8 +452,9 @@ function renderSusutTable() {
   const headerRow = document.createElement("tr");
   headerRow.innerHTML = "<th></th>";
 
-  const headers = susutColumns.slice(0, 5);
-
+  const headers = susutColumns
+    .slice(0, 5)
+    .sort((a, b) => Number(a) - Number(b));
   headers.forEach(h => {
     const th = document.createElement("th");
     th.textContent = h;
