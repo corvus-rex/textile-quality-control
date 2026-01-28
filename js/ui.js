@@ -4,27 +4,32 @@ let selectedPoint = null;
 let selectedDefectType = null;
 
 // ON LOAD
-const dateField = document.getElementById("dateField");
+const dateField = document.querySelector("#dateField input");
 if (dateField) {
   dateField.value = new Date().toISOString().split("T")[0];
 }
 
-const typeField = document.getElementById("typeField");
-const customTypeField = document.getElementById("customTypeField");
-typeField.addEventListener("change", () => {
-  if (typeField.value === "Custom") {
-    customTypeField.hidden = false;
-    customTypeField.disabled = false;
 
-    typeField.style.gridColumn = "span 1";   
+const typeSelect = document.querySelector("#typeField select");
+const typeWrapper = document.getElementById("typeField");
+const customWrapper = document.getElementById("customTypeField");
+const customInput = customWrapper.querySelector("input");
+
+typeSelect.addEventListener("change", () => {
+  if (typeSelect.value === "Custom") {
+    customWrapper.hidden = false;
+    customInput.disabled = false;
+
+    typeWrapper.style.gridColumn = "span 1";
   } else {
-    customTypeField.hidden = true;
-    customTypeField.disabled = true;
-    customTypeField.value = "";
+    customWrapper.hidden = true;
+    customInput.disabled = true;
+    customInput.value = "";
 
-    typeField.style.gridColumn = "span 2"; 
+    typeWrapper.style.gridColumn = "span 2";
   }
 });
+
 
 const DEFECT_OPTIONS = [
   'AW','B','BAP','BKRT','BL','BLPT','BLPT GREY','BMC','BP','BR','BTA','BTL','BTS',
@@ -35,8 +40,8 @@ const DEFECT_OPTIONS = [
 ];
 
 export function setEnabled(enabled) {
-  ["kpField", "texCodeField", "operatorField", "startBtn", "addInputBtn"].forEach(id => {
-    const el = document.getElementById(id);
+  ["#kpField input", "#texCodeField input", "#operatorField input", "#startBtn", "#addInputBtn input"].forEach(id => {
+    const el = document.querySelector(id);
     if (el) el.disabled = !enabled;
   });
   
@@ -44,8 +49,8 @@ export function setEnabled(enabled) {
 
 export function onSessionStart() {
   console.log("FOO");
-  ["kpField", "texCodeField", "operatorField"].forEach(id => {
-    const el = document.getElementById(id);
+  ["#kpField input", "#texCodeField input", "#operatorField input"].forEach(id => {
+    const el = document.querySelector(id);
     if (el) el.disabled = true;
   });
 
@@ -140,8 +145,8 @@ export function initDefectButtons(onSelect) {
 }
 
 export function onSessionStop() {
-  ["kpField", "texCodeField", "operatorField"].forEach(id => {
-    const el = document.getElementById(id);
+  ["#kpField input", "#texCodeField input", "#operatorField input"].forEach(id => {
+    const el = document.querySelector(id);
     if (el) el.disabled = false;
   });
 

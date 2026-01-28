@@ -19,27 +19,32 @@ const stopBtn = document.getElementById("stopBtn");
 const submitSummaryBtn = document.getElementById("submitSummaryBtn");
 const newSessionBtn = document.getElementById("newSessionBtn");
 
-var kpField = document.getElementById("kpField");
-var texCodeField = document.getElementById("texCodeField");
-var operatorField = document.getElementById("operatorField");
-var susutField = document.getElementById("susut-input");
-var dateField = document.getElementById("dateField");
-var typeField = document.getElementById("typeField");
-var customTypeField = document.getElementById("customTypeField");
-var nbField = document.getElementById("nbField");
-var mcField = document.getElementById("mcField");
-var tglNaikField = document.getElementById("tglNaikField");
-var tglPotField = document.getElementById("tglPotField");
-var potField = document.getElementById("potField");
-var insPotField = document.getElementById("insPotField");
-var paField = document.getElementById("paField");
-var lebarField = document.getElementById("lebarField");
-var baField = document.getElementById("baField");
-var tagIdField = document.getElementById("tagIdField");
-var insGrField = document.getElementById("insGrField");
-var shiftField = document.getElementById("shiftField");
-var insField = document.getElementById("insField");
-var tglProsesField = document.getElementById("tglProsesField");
+var kpField          = document.querySelector("#kpField input");
+var texCodeField     = document.querySelector("#texCodeField input");
+var operatorField    = document.querySelector("#operatorField input");
+
+var dateField        = document.querySelector("#dateField input");
+var typeField        = document.querySelector("#typeField select");
+var customTypeField  = document.querySelector("#customTypeField input");
+
+var nbField          = document.querySelector("#nbField input");
+var mcField          = document.querySelector("#mcField input");
+var tglNaikField     = document.querySelector("#tglNaikField input");
+var tglPotField      = document.querySelector("#tglPotField input");
+var potField         = document.querySelector("#potField input");
+var insPotField      = document.querySelector("#insPotField input");
+var paField          = document.querySelector("#paField input");
+var lebarField       = document.querySelector("#lebarField input");
+var baField          = document.querySelector("#baField input");
+var tagIdField       = document.querySelector("#tagIdField input");
+var insGrField       = document.querySelector("#insGrField input");
+
+var shiftField       = document.querySelector("#shiftField input");
+var insField         = document.querySelector("#insField input");
+var tglProsesField   = document.querySelector("#tglProsesField input");
+
+var susutField       = document.getElementById("susut-input");
+
 const cmField = document.getElementById("cmField");
 const beratField = document.getElementById("beratField");
 const lfField = document.getElementById("lfField");
@@ -293,29 +298,34 @@ connect(
 startBtn.onclick = () => {
   send("start_session", {
     /* ===== Roll Section ===== */
-    date: dateField.value,
-    tex_type: typeField.value,
-    kp: kpField.value,
-    tex_code: texCodeField.value,
-    operator: operatorField.value,
+    date: document.querySelector("#dateField input")?.value || null,
+
+    tex_type:
+      document.querySelector("#typeField select")?.value === "Custom"
+        ? document.querySelector("#customTypeField input")?.value || null
+        : document.querySelector("#typeField select")?.value || null,
+
+    kp: document.querySelector("#kpField input")?.value || null,
+    tex_code: document.querySelector("#texCodeField input")?.value || null,
+    operator: document.querySelector("#operatorField input")?.value || null,
 
     /* ===== Weaving Section ===== */
-    nb: nbField.value,
-    mc: mcField.value,
-    tgl_naik: tglNaikField.value,
-    tgl_pot: tglPotField.value,
-    pot: potField.value,
-    ins_pot: insPotField.value,
-    pa: paField.value,
-    lebar: lebarField.value,
-    ba: baField.value,
-    tag_id: tagIdField.value,
-    ins_gr: insGrField.value,
+    nb: document.querySelector("#nbField input")?.value || null,
+    mc: document.querySelector("#mcField input")?.value || null,
+    tgl_naik: document.querySelector("#tglNaikField input")?.value || null,
+    tgl_pot: document.querySelector("#tglPotField input")?.value || null,
+    pot: document.querySelector("#potField input")?.value || null,
+    ins_pot: document.querySelector("#insPotField input")?.value || null,
+    pa: document.querySelector("#paField input")?.value || null,
+    lebar: document.querySelector("#lebarField input")?.value || null,
+    ba: document.querySelector("#baField input")?.value || null,
+    tag_id: document.querySelector("#tagIdField input")?.value || null,
+    ins_gr: document.querySelector("#insGrField input")?.value || null,
 
     /* ===== BBSF Section ===== */
-    shift_bbsf: shiftField.value,
-    ins_bbsf: insField.value,
-    tgl_proses: tglProsesField.value
+    shift_bbsf: document.querySelector("#shiftField input")?.value || null,
+    ins_bbsf: document.querySelector("#insField input")?.value || null,
+    tgl_proses: document.querySelector("#tglProsesField input")?.value || null
   });
 };
 

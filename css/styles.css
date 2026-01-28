@@ -583,3 +583,19 @@ input, button {
   font-size: 12px;
   opacity: 0.85;
 }
+
+.field input,
+.field select {
+  font-size: 14px;  
+  font-family: inherit;
+}
+
+.field input,
+.field select {
+  height: 36px;            
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 36px;
+  box-sizing: border-box;
+  font-family: inherit;
+}

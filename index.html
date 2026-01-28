@@ -12,58 +12,125 @@
 
     <div class="container">
       <div id="status" class="status">Connecting...</div>
-
+ 
       <h2 id="roll-header">Roll Section</h2>
       <div class="grid-2" id="roll-section">
-        
-          <div class="field">
-            <label for="dateField">Tanggal</label>
-            <input id="dateField" type="date" disabled>
-          </div>
-          <select id="typeField">
-            <option value="">Tipe Kain</option>
+
+        <div class="field" id="dateField">
+          <label>Tanggal</label>
+          <input type="date" disabled>
+        </div>
+
+        <div class="field" id="typeField">
+          <label>Tipe Kain</label>
+          <select>
+            <option value="">Pilih</option>
             <option value="Sinaran">Sinaran</option>
             <option value="JD Denim">JD Denim</option>
             <option value="Custom">Custom</option>
           </select>
-          <input id="customTypeField" type="text" placeholder="Tipe Kain" hidden disabled>
-          <input id="kpField" type="text" placeholder="KP" disabled>
-          <input id="texCodeField" type="text" placeholder="Kode Kain" disabled>
-          <input id="operatorField" type="text" placeholder="Operator" disabled>
-          <button id="stopBtn" hidden>Stop Session</button>
+        </div>
+
+        <div class="field" id="customTypeField" hidden>
+          <label>Tipe Kain (Custom)</label>
+          <input type="text" disabled>
+        </div>
+
+        <div class="field" id="kpField">
+          <label>KP</label>
+          <input type="text" disabled>
+        </div>
+
+        <div class="field" id="texCodeField">
+          <label>Kode Kain</label>
+          <input type="text" disabled>
+        </div>
+
+        <div class="field" id="operatorField">
+          <label>Operator</label>
+          <input type="text" disabled>
+        </div>
+
+        <button id="stopBtn" hidden>Stop Session</button>
       </div>
 
       <h2 id="weaving-header">Weaving Section</h2>
       <div class="grid-2" id="weaving-section">
-        <input id="nbField" type="number" placeholder="Nb">
-        <input id="mcField" type="text" placeholder="Mc">
-        <input id="tglNaikField" type="text" placeholder="Tgl Naik">
-        
-        <div class="field">
-          <label for="tglPotField">Tgl Pot</label>  
-          <input id="tglPotField" type="date" placeholder="Tgl Pot">  
+
+        <div class="field" id="nbField">
+          <label>Nb</label>
+          <input type="number">
         </div>
-        
-        <input id="potField" type="text" placeholder="Pot">
-        <input id="insPotField" type="text" placeholder="Ins Pot">
-        <input id="paField" type="number" step="0.01" placeholder="PA">
-        <input id="lebarField" type="number" placeholder="Lebar">
-        <input id="baField" type="number" step="0.01" placeholder="BA">
-        <input id="tagIdField" type="number" placeholder="Tag ID">
-        <input id="insGrField" type="text" placeholder="Ins Gr">
+
+        <div class="field" id="mcField">
+          <label>Mc</label>
+          <input type="text">
+        </div>
+
+        <div class="field" id="tglNaikField">
+          <label>Tgl Naik</label>
+          <input type="date">
+        </div>
+
+        <div class="field" id="tglPotField">
+          <label>Tgl Pot</label>
+          <input type="date">
+        </div>
+
+        <div class="field" id="potField">
+          <label>Pot</label>
+          <input type="text">
+        </div>
+
+        <div class="field" id="insPotField">
+          <label>Ins Pot</label>
+          <input type="text">
+        </div>
+
+        <div class="field" id="paField">
+          <label>PA</label>
+          <input type="number" step="0.01">
+        </div>
+
+        <div class="field" id="lebarField">
+          <label>Lebar</label>
+          <input type="number">
+        </div>
+
+        <div class="field" id="baField">
+          <label>BA</label>
+          <input type="number" step="0.01">
+        </div>
+
+        <div class="field" id="tagIdField">
+          <label>Tag ID</label>
+          <input type="number">
+        </div>
+
+        <div class="field" id="insGrField">
+          <label>Ins Gr</label>
+          <input type="text">
+        </div>
       </div>
 
       
       <h2 id="bbsf-header">BBSF Section</h2>
       <div class="grid-2" id="bbsf-section">
-        <input id="shiftField" type="text" placeholder="Shift">
-        <input id="insField" type="text" placeholder="Ins">
 
-        <div class="field">
-          <label for="tglProsesField">Tgl Proses</label>  
-          <input id="tglProsesField" type="date" placeholder="Tgl Proses">
+        <div class="field" id="shiftField">
+          <label>Shift</label>
+          <input type="text">
         </div>
 
+        <div class="field" id="insField">
+          <label>Ins</label>
+          <input type="text">
+        </div>
+
+        <div class="field" id="tglProsesField">
+          <label>Tgl Proses</label>
+          <input type="date">
+        </div>
       </div>
 
       <button id="startBtn" disabled>Start Session</button>
