@@ -411,7 +411,24 @@ newSessionBtn.onclick = () => {
   if (operatorField) {
     operatorField.style.gridColumn = "span 2";
   }
+  // Reset Defect Summary
   defectSummary = {};
+  // ===== Reset Update Summary fields =====
+  const cmField = document.getElementById("cmField");
+  const beratField = document.getElementById("beratField");
+  const lfField = document.getElementById("lfField");
+  const slField = document.getElementById("slField");
+  const ssField = document.getElementById("ssField");
+  const gradeField = document.getElementById("gradeField");
+  const ketEfField = document.getElementById("ketEfField");
+
+  if (cmField) cmField.value = "";
+  if (beratField) beratField.value = "";
+  if (lfField) lfField.value = "";
+  if (slField) slField.value = "";
+  if (ssField) ssField.value = "";
+  if (gradeField) gradeField.value = "";
+  if (ketEfField) ketEfField.value = "";
 };
 
 function resetDefectState() {
