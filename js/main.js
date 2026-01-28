@@ -295,6 +295,29 @@ connect(
   }
 );
 
+if (kpField && startBtn) {
+
+  kpField.addEventListener("input", () => {
+    // hard limit to 4 chars
+    if (kpField.value.length > 4) {
+      kpField.value = kpField.value.slice(0, 4);
+    }
+
+    // enable start only if exactly 4 chars
+    startBtn.disabled = kpField.value.length !== 4;
+  });
+
+  kpField.addEventListener("paste", e => {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData)
+      .getData("text")
+      .slice(0, 4);
+
+    kpField.value = text;
+    startBtn.disabled = text.length !== 4;
+  });
+}
+
 startBtn.onclick = () => {
   send("start_session", {
     /* ===== Roll Section ===== */
