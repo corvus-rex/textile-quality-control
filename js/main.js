@@ -541,12 +541,19 @@ function handleSusutSubmit(susutValue, encoderPos) {
 
   renderSusutTable();
   
+  const range = getSusutRangeByEncoder(encoderPos);
+
+  if (!range) {
+    console.warn("Encoder position out of SUSUT ranges:", encoderPos);
+    return;
+  }
+
   send("update_susut", {
-    'id': sessionId,
-    'panjang': Number(susutField.value),
-    'meter_start': Number(encoderPos),
-    'meter_end': Number(encoderPos) + Number(susutField.value),
-    'jumlah': 1
+    id: sessionId,
+    panjang: Number(susutField.value),
+    meter_start: range.min,
+    meter_end: range.max === Infinity ? null : range.max,
+    jumlah: 1
   });
 }
 
@@ -669,3 +676,9 @@ const setText = (id, value) => {
   const el = document.getElementById(id);
   if (el) el.textContent = value ?? "";
 };
+
+function getSusutRangeByEncoder(pos) {
+  const p = Number(pos);
+
+  return SUSUT_RANGES.find(r => p >= r.min && p <= r.max) || null;
+}
