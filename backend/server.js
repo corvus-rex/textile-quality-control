@@ -201,7 +201,7 @@ wss.on("connection", ws => {
             "res-cmcd": +(Math.random() * 10).toFixed(2),
             "total_point": Math.floor(Math.random() * 10),
             "point_grade": +(Math.random() * 10).toFixed(2),
-            "grade": +(Math.random() * 10).toFixed(2)
+            "grade": "ALK"
           };
 
           ws.send(JSON.stringify(summary));

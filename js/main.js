@@ -9,8 +9,8 @@ const SUSUT_RANGES = [
   { label: "100+", min: 101, max: Infinity }
 ];
 
-// const backendURL = 'localhost:8776'
-const backendURL = 'localhost:8080'
+const backendURL = 'localhost:8776'
+// const backendURL = 'localhost:8080'
 const statusEl = document.getElementById("status");
 const startBtn = document.getElementById("startBtn");
 const sendDefectBtn = document.getElementById("send-defect-btn");
@@ -103,7 +103,6 @@ connect(
         break;
 
       case "end_session_ack": {
-        console.log("SUMM")
 
         const meter = Number(message["total_meter"]);
         const yard  = Number(message["total_yard"]);
@@ -129,7 +128,29 @@ connect(
           message["grade"] ?? "";
 
         lastReceivedGrade = message["grade"] ?? null;
+        let gradeFromBE = message["grade"] ?? null;
 
+        const gradeSelect = document.getElementById("gradeField");
+
+        if (gradeFromBE) {
+          // check if option already exists
+          let opt = gradeSelect.querySelector(
+            `option[value="${gradeFromBE}"]`
+          );
+
+          // if not, create a temporary option
+          if (!opt) {
+            opt = document.createElement("option");
+            opt.value = gradeFromBE;
+            opt.textContent = gradeFromBE;
+            opt.dataset.dynamic = "true"; // mark as injected
+            gradeSelect.appendChild(opt);
+          }
+
+          gradeSelect.value = gradeFromBE;
+        } else {
+          gradeSelect.value = "";
+        }
         break;
       }
 
@@ -450,6 +471,9 @@ newSessionBtn.onclick = () => {
   if (ssField) ssField.value = "";
   if (gradeField) gradeField.value = "";
   if (ketEfField) ketEfField.value = "";
+  document
+  .querySelectorAll('#gradeField option[data-dynamic="true"]')
+  .forEach(opt => opt.remove());
 };
 
 function resetDefectState() {
